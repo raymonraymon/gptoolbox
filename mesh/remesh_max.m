@@ -14,7 +14,7 @@ function [VV,FF,J,FJ] = remesh_max(V,F,S)
   %
 
   % V,F as fake input so they are local
-  function [VV,FF,J,FJ] = remesh_max_single(S)
+  function [VV,FF,J,FJ] = remesh_max_single(S,V,F)
     V = [0 0;1 0;0 1];
     F = [1 2 3];
     FF = F + 3*((1:size(S,2))-1)';
@@ -77,13 +77,12 @@ function [VV,FF,J,FJ] = remesh_max(V,F,S)
     FF = [FF;n+FFf];
     FJ = [FJ;repmat(f,size(FFf,1),1)];
     J = [J;Jf];
-    %%
-    tsurf(FF,VV,'CData',J);
-    colormap(cbrewer('Set1',size(S,2)));
-    caxis([1 size(S,2)]);
-    view(2);
-    axis equal;
-    drawnow;
+    %tsurf(FF,VV,'CData',J);
+    %colormap(cbrewer('Set1',size(S,2)));
+    %caxis([1 size(S,2)]);
+    %view(2);
+    %axis equal;
+    %drawnow;
   end
 
 end

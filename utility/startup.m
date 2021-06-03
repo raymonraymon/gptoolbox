@@ -2,7 +2,7 @@
 %
 % See also: finish
 
-lastworkspace = 'd:/lastworkspace.mat';
+lastworkspace = '/var/tmp/lastworkspace.mat';
 try
   load(lastworkspace);
 catch

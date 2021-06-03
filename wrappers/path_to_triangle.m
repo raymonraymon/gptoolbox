@@ -12,7 +12,7 @@ function s = path_to_triangle()
       'Dear Ladislav, is there a standard place to put executables on a pc?' ...
       'Could you put triangle there and change this accordingly?' ...
       'Thanks, Alec']);
-    s = 'D:/code/triangle/triangleexe/Release/triangle.exe';
+    s = 'c:/prg/lib/triangle/Release/triangle.exe';
   elseif isunix || ismac
     % I guess this means linux
     [status, s] = system('which triangle');

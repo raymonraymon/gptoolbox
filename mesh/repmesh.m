@@ -28,9 +28,9 @@ function [VV,FF,IV,IF] = repmesh(V,F,C)
   %   % Color based on which vector was used (per-face)
   %   tsurf(FF,VV,'CData',floor(((1:size(FF,1))-1)/size(F,1))')
   % 
-  FF = reshape(bsxfun(@plus,F',permute((0:size(C,1)-1)*size(V,1),[1 3 2])),size(F,2),[])';
+  FF = reshape(F'+permute((0:size(C,1)-1)*size(V,1),[1 3 2]),size(F,2),[])';
   assert(size(V,2) == size(C,2));
-  VV = reshape(bsxfun(@plus,V',permute(C,[2 3 1])),size(V,2),size(V,1)*size(C,1))';
+  VV = reshape(V'+permute(C,[2 3 1]),size(V,2),size(V,1)*size(C,1))';
   IV = reshape(repmat(1:size(C,1),size(V,1),1),[],1);
   IF = reshape(repmat(1:size(C,1),size(F,1),1),[],1);
 end

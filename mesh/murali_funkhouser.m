@@ -29,7 +29,7 @@ function [S,DV,DEle,DF,DN] = murali_funkhouser(V,F,varargin)
   %   
   %
 
-  already_clean = true;
+  already_clean = false;
   v = 1;
   while v <= numel(varargin)
     switch varargin{v}
@@ -85,23 +85,23 @@ function [S,DV,DEle,DF,DN] = murali_funkhouser(V,F,varargin)
   assert(all(I));
   % Which faces of allF are in SF
   inSF = ismember(sort(allF,2),sort(DF,2),'rows');
-  % si = (¡Æj (tij - oij) sj) / Ai
-  % 0 = (¡Æj (tij - oij) sj) / Ai - si
-  % 0 = (¡Æj (tij - oij) sj - aij si) / Ai
+  % si = (âˆ‘j (tij - oij) sj) / Ai
+  % 0 = (âˆ‘j (tij - oij) sj) / Ai - si
+  % 0 = (âˆ‘j (tij - oij) sj - aij si) / Ai
   % : tij + oij = aij
   %   tij - oij = aij - 2*oij
-  % 0 = (¡Æj (aij - 2*oij) sj - aij si) / Ai
-  % 0 = (¡Æj (aij - 2*oij) sj - (aij - 2*oij + 2*oij) si) / Ai
-  % 0 = (¡Æj (aij - 2*oij) sj - (aij - 2*oij) si - (2*oij) si) / Ai
-  % 0 = (¡Æj (aij - 2*oij) (sj - si) - 2*oij si) / Ai
-  % 0 = (¡Æj (aij - 2*oij) (sj - si))/ Ai  - si ¡Æ 2*oij / Ai
-  % 0 = (¡Æj (tij - oij) (sj - si))/ Ai  - si ¡Æ 2*oij / Ai
+  % 0 = (âˆ‘j (aij - 2*oij) sj - aij si) / Ai
+  % 0 = (âˆ‘j (aij - 2*oij) sj - (aij - 2*oij + 2*oij) si) / Ai
+  % 0 = (âˆ‘j (aij - 2*oij) sj - (aij - 2*oij) si - (2*oij) si) / Ai
+  % 0 = (âˆ‘j (aij - 2*oij) (sj - si) - 2*oij si) / Ai
+  % 0 = (âˆ‘j (aij - 2*oij) (sj - si))/ Ai  - si âˆ‘ 2*oij / Ai
+  % 0 = (âˆ‘j (tij - oij) (sj - si))/ Ai  - si âˆ‘ 2*oij / Ai
   %
   % (L - D) * s = 0
   % 
   % Where L is area-weighted laplacian and D is a area-weighted diagonal
   %
-  % 0 = 1/Ai * ( (¡Æj (tij - oij) (sj - si))  - si ¡Æ 2*oij)
+  % 0 = 1/Ai * ( (âˆ‘j (tij - oij) (sj - si))  - si âˆ‘ 2*oij)
   %
   % IA * (L - D) * s = 0
   % 
@@ -118,7 +118,7 @@ function [S,DV,DEle,DF,DN] = murali_funkhouser(V,F,varargin)
   Ai = A;
   Ai(DN==-1) = 0;
   Ai = sum(Ai,2);
-  % Ai si + (¡Æj (oij - tij) sj) = 0
+  % Ai si + (âˆ‘j (oij - tij) sj) = 0
   % Mii = Ai
   % Mij = oij - tij
   % off-diagonal then diagonal

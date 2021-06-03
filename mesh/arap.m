@@ -107,7 +107,7 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
   % remove rigid transformation invariance
   remove_rigid = false;
   G = [];
-  debug = true;
+  debug = false;
   data = [];
   Aeq = [];
   Beq = [];
@@ -186,7 +186,7 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     bc = sparse(0,dim);
   end
 
-  %assert(dim == size(bc,2));
+  assert(dim == size(bc,2));
   assert(size(Aeq,1) == size(Beq,1));
   assert((size(Aeq,2) == 0) || (size(Aeq,2) == dim*size(V,1)));
 
@@ -213,7 +213,7 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     mom = 1e10;
     M = massmatrix(V,F);
     DQ = 0.5*mom*M;
-    Dl = mom*M*(-2*V0 + Vm1) - h^2*fext;
+    Dl =     mom*M*(-2*V0 + Vm1) - h^2*fext;
   else
     dyn_alpha = 1;
     DQ = sparse(size(V,1),size(V,1));

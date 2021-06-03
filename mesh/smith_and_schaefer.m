@@ -23,10 +23,9 @@ function [U,data] = smith_and_schaefer(V,F,U0,varargin)
   tol = [];
   data = struct();
   quiet = false;
-  prevent_boundary_overlaps = true;
   % Map of parameter names to variable names
   params_to_variables = containers.Map( ...
-    {'PreventBoundaryOverlaps','MaxIters','Quiet','Tol','Data'}, {'prevent_boundary_overlaps','max_iters','quiet','tol','data'});
+    {'MaxIters','Quiet','Tol','Data'}, {'max_iters','quiet','tol','data'});
   v = 1;
   while v <= numel(varargin)
     param_name = varargin{v};
@@ -71,7 +70,7 @@ function [U,data] = smith_and_schaefer(V,F,U0,varargin)
    @(U) 1/(~is_self_intersecting(reshape(U,[],2),O))-1;
   % ∞ if flipped, 0 otherwise
   flipped = @(X)  max((1./(doublearea(reshape(X,[],2),F)>0) - 1));
-  assert(~prevent_boundary_overlaps || self_intersecting(U) == 0);
+  assert(self_intersecting(U) == 0);
   assert(flipped(U) == 0);
   % u can be updated multiplicatively /=2  *=2
   u2w = @(u) u/(u+1);
@@ -81,16 +80,10 @@ function [U,data] = smith_and_schaefer(V,F,U0,varargin)
     data.iter = iter;
     U0 = reshape(U,[],2);
     [fsd,Gsd,Hsd] = symmetric_dirichlet(U0,F,V);
-    if prevent_boundary_overlaps
-      [fb,Gb,Hb] = self_collision_barrier(U0,O,tol);
-      f0 = fsd + fb;
-      G0 = Gsd + Gb;
-      H0 = Hsd + Hb;
-    else
-      f0 = fsd;
-      G0 = Gsd;
-      H0 = Hsd;
-    end
+    [fb,Gb,Hb] = self_collision_barrier(U0,O,tol);
+    f0 = fsd + fb;
+    G0 = Gsd + Gb;
+    H0 = Hsd + Hb;
     while true
       stalled = false;
       w = u2w(data.u);
@@ -107,17 +100,11 @@ function [U,data] = smith_and_schaefer(V,F,U0,varargin)
       %dU = -G0;
 
       if max(abs(dU))>1e-10
-        if prevent_boundary_overlaps
-          f_funs = @(X) [
-            symmetric_dirichlet(   reshape(X,[],2),F,V) ...
-            self_collision_barrier(reshape(X,[],2),O,tol) ...
-            flipped(X) ...
-            self_intersecting(X)];
-        else
-          f_funs = @(X) [
-            symmetric_dirichlet(   reshape(X,[],2),F,V) ...
-            flipped(X) ];
-        end
+        f_funs = @(X) [
+          symmetric_dirichlet(   reshape(X,[],2),F,V) ...
+          self_collision_barrier(reshape(X,[],2),O,tol) ...
+          flipped(X) ...
+          self_intersecting(X)];
         f_fun = @(X) sum(f_funs(X));
         [t,U1,data.f] = backtracking_line_search(f_fun,U0(:),G0,dU,0.01,0.5);
         if f0-data.f < 1e-15

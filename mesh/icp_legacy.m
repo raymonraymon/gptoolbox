@@ -1,4 +1,4 @@
-function [R,t,BRt,e,KDTA,KDTB] = icp_legacy(A,B,varargin)
+function [R,t,BRt,e,KDTA,KDTB] = icp(A,B,varargin)
   % ICP Find a rigid transformation (R,t) that registers point set B to point
   % set A using iterative closest point (icp).
   %

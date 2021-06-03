@@ -200,18 +200,18 @@ function S = statistics(V,F,varargin)
   S.num_close_vertices = ...
     S.num_vertices - size(remove_duplicate_vertices(V,min_dist*bbd),1);
 
-%   if ~fast
-%     V3 = V;
-%     V3(:,end+1:3) = 0;
-%     nd = dblA>0;
-%     Fnd = F(nd,:);
-%     [~,~,IF] = selfintersect(V3,Fnd,'DetectOnly',true);
-%     S.num_selfintersecting_pairs = size(IF,1);
-%     CF = C(F(:,1));
-%     CFnd = CF(nd)';
-%     S.num_intracomponent_selfintersecting_pairs =  ...
-%       sum(CFnd(IF(:,1))== CFnd(IF(:,2)));
-%   end
+  if ~fast
+    V3 = V;
+    V3(:,end+1:3) = 0;
+    nd = dblA>0;
+    Fnd = F(nd,:);
+    [~,~,IF] = selfintersect(V3,Fnd,'DetectOnly',true);
+    S.num_selfintersecting_pairs = size(IF,1);
+    CF = C(F(:,1));
+    CFnd = CF(nd)';
+    S.num_intracomponent_selfintersecting_pairs =  ...
+      sum(CFnd(IF(:,1))== CFnd(IF(:,2)));
+  end
 
 
 end

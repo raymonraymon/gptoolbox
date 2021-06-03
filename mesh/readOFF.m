@@ -1,4 +1,4 @@
-function [V,F,UV,C,FC,N] = readOFF( filename )
+function [V,F,UV,C,N] = readOFF( filename )
   % READOFF reads an OFF file with vertex/face information
   %
   % [V,F,UV,C,N] = readOFF( filename )
@@ -21,7 +21,6 @@ function [V,F,UV,C,FC,N] = readOFF( filename )
   F = [];
   UV = [];
   C = [];
-  FC =[];
   N = [];
   
   fp = fopen( filename, 'r' );
@@ -71,11 +70,9 @@ function [V,F,UV,C,FC,N] = readOFF( filename )
   if (nF ~= 0)
     %disp(sprintf('  - Reading %d faces', nF));
     temp = textscan( fp, '%d %d %d %d %d %d %d %d %d %d %d', nF );
-    sz = temp{1};
+    sz = temp{1}(1);
     if all(sz == cell2mat(temp(1)))
-      sz = temp{1}(1);
       F = double (cell2mat( temp(2:sz+1 ))) +1;
-      FC = double (cell2mat( temp(sz+2:sz+4 ))) ;
     else
       warning('Trivially triangulating high degree facets');
       F = zeros(sum(temp{1}-2),3);

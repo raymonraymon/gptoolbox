@@ -81,7 +81,7 @@ function [VV,TT,FF,TN,IFF] = cdt(varargin)
   end
 
   if quiet
-    fid = fopen('/test.txt','w');
+    fid = fopen('/dev/null','w');
   else
     fid = 1;
   end
@@ -100,7 +100,6 @@ function [VV,TT,FF,TN,IFF] = cdt(varargin)
   % get md5 checksum on input "state", we append .cache.mat to the check sum
   % because we'll use the checksum as the cache file name
   [s,cache_name] = system(['/sbin/md5 -r ' tmpf ' | awk ''{printf "."$1".cache.mat"}''']);
-  cache_name = 'temp.mat';
   % clean up
   delete(tmpf);
   clear s tmpf variables;

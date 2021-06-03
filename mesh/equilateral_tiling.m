@@ -1,4 +1,4 @@
-function [V,F] = equilateral_tiling(x)
+function [V,F] = equilateral_tiling(x);
   % EQUILATERAL_TILING Create a tiling of the unit hexagon using equilateral
   % triangles.
   %

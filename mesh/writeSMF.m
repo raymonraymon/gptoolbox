@@ -4,7 +4,7 @@ function writeSMF(filename,V,F)
   % writeSMF(filename,V,F)
   %
   % Input:
-  %  filename  path to .smf file
+  %  filename  path to .obj file
   %  V  #V by 3 list of vertices
   %  F  #F by 3 list of triangle indices
   %

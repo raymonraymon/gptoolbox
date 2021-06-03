@@ -1,5 +1,5 @@
 function [K,data] = wks(V,F,varargin)
-  % WKS Wave Kernel Signature "The Wave Kernel Signature: A Quantum Mechanical
+  % WKS Wave Kernel Signature "TheWave Kernel Signature: A Quantum Mechanical
   % Approach to Shape Analysis" [Aubry et al. 2011]
   %
   % Inputs:
@@ -25,7 +25,7 @@ function [K,data] = wks(V,F,varargin)
   emin = [];
   emax = [];
   k = 300;
-  nt = 300;
+  nt = 100;
   sigma = [];
   data = [];
   % Map of parameter names to variable names
@@ -87,7 +87,7 @@ function [K,data] = wks(V,F,varargin)
 
   data.e = linspace(emin,emax,nt);
 
-  data.fE = exp((-(data.e'-log(data.E)).^2)/(2*sigma^2));
+  data.fE = exp((-(data.e-log(data.E)).^2)/(2*sigma^2));
   data.Ce = sum(data.fE,1).^-1;
   K = (data.phi_sqr * data.fE) ./ data.Ce;
 

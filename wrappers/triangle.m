@@ -227,7 +227,7 @@ function [TV,TF,TN,VV,VE,VRP,VRD] = triangle(varargin)
     result
   end
   % read outputs from files
-  [TV] = readNODE([prefix '.1.node']);
+  [TV,I] = readNODE([prefix '.1.node']);
   TF = readELE([prefix '.1.ele']);
   if isempty(TF)
     TF = [];

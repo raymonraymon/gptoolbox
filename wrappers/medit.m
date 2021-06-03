@@ -78,9 +78,9 @@ function [s,r] = medit(varargin)
 
   % Change these paths accordingly
   MEDIT_PATH = path_to_medit;
-  TEMP_MESH_FILE  = './temp.mesh';
-  TEMP_MEDIT_FILE = './temp.medit';
-  TEMP_BB_FILE = './temp.bb';
+  TEMP_MESH_FILE  = '/var/tmp/temp.mesh';
+  TEMP_MEDIT_FILE = '/var/tmp/temp.medit';
+  TEMP_BB_FILE = '/var/tmp/temp.bb';
 
   % write default medit options
   f = fopen(TEMP_MEDIT_FILE,'w');

@@ -57,7 +57,7 @@ function [V,T,F] = regular_tetrahedral_mesh(varargin)
   end
 
   % Create a grid
-  [x,y,z] = meshgrid(linspace(-1,1,nx),linspace(-1,1,ny),linspace(-1,1,nz));
+  [x,y,z] = meshgrid(linspace(0,1,nx),linspace(0,1,ny),linspace(0,1,nz));
   V = [x(:) y(:) z(:)];
   % meshgrid flips x and y ordering
   idx = reshape(1:prod([ny,nx,nz]),[ny,nx,nz]);
