@@ -50,7 +50,7 @@ installing MATLAB and adding the qptoolbox directory and its subdirectories to
 your MATLAB path is needed for installation. Let's assume you cloned gptoolbox
 at `/Users/ajx/Repos/gptoolbox/`, then you could issue:
 
-    addpath(strjoin(strcat(['/Users/ajx/Repos/gptoolbox/'],{'external','imageprocessing', 'images', 'matrix', 'mesh', 'mex', 'quat','utility','wrappers'}),':'))
+    addpath(strjoin(strcat(['D:\code\gptoolbox\'],{'external','imageprocessing', 'images', 'matrix', 'mesh', 'mex', 'quat','utility','wrappers'}),';'))
 
 To make this change permanent, then issue:
 
