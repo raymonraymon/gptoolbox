@@ -16,7 +16,7 @@ function [ B ] = normalizerow( A ) %#codegen
     B = bsxfun(@times,A,1./sqrt(sum(A.^2,2)));
   else
     % normrow will use robust norm
-    B = A./normrow(A);
+    B = bsxfun(@times ,A,1./normrow(A));
   end
 end
 

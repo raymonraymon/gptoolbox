@@ -17,7 +17,8 @@ function [ B ] = normrow( A )
   otherwise
     %B = sqrt(sum(A.^2,2));
     M = max(abs(A),[],2);
-    B = M.*sqrt(sum((A./M).^2,2));
+    avgA = bsxfun(@times,A,1./M);
+    B = M.*sqrt(sum(avgA.^2,2));
     B(M==0) = 0;
   end
 end
