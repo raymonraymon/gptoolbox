@@ -29,6 +29,6 @@ function p = draw_boxes(BN,BX,varargin)
          5 7 8 6
          ];
     F = reshape(bsxfun(@plus,(F(:)-1)*m,1:m)',6*m,4);
-    t = trisurf(F,V(:,1),V(:,2),V(:,3),varargin{:});
+    p = trisurf(F,V(:,1),V(:,2),V(:,3),varargin{:});
   end
 end

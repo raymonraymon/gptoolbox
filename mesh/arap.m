@@ -107,7 +107,7 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
   % remove rigid transformation invariance
   remove_rigid = false;
   G = [];
-  debug = false;
+  debug = true;
   data = [];
   Aeq = [];
   Beq = [];

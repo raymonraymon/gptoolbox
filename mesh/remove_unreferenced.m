@@ -1,5 +1,5 @@
 function [RV,IM,J,IMF] = remove_unreferenced(V,F)
-  % REMOVE_UNREFERENCED Removes any rows in V that are not referenced in R.
+  % REMOVE_UNREFERENCED Removes any rows in V that are not referenced in F.
   % **Warning:** This implementation is O(#V) regardless of #F
   %
   % [RV,IM,J,IMF] = remove_unreferenced(V,F)
