@@ -25,8 +25,8 @@ function [V,T] = readTET( filename )
   nV = d(1);
   nT = d(2);
 
-  V = fscanf(fp,'%g %g %g',[3 nV])';
-  T = fscanf(fp,'%d %d %d %d',[4 nT])'+1;
+  V = fscanf(fp,'%g %g %g %g',[4 nV])';
+  T = fscanf(fp,'%d %d %d %d',[5 nT])'+1;
 
 
   fclose(fp);

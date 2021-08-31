@@ -141,7 +141,7 @@ function [U,G,J,BC] = slice_tets(V,T,plane,varargin)
   % Lambda from smallest to largest endpoint
   lambda = sIE(:,2)./(sIE(:,2)-sIE(:,1));
   % Vertex position on each unique edge
-  U = V(sE(:,1),:).*lambda+ V(sE(:,2),:).*(1-lambda);
+  U = bsxfun(@times,V(sE(:,1),:),lambda)+ bsxfun(@times,V(sE(:,2),:),(1-lambda));
   G = [G13;size(U13,1)+[fliplr(G31);size(U31,1)+[G22;]]];
   G = uJ(G);
 

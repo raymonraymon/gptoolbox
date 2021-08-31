@@ -12,7 +12,7 @@ function [Fp, Fi] = triangle_triangle_adjacency(F)
   %     to the jth edge of the ith triangle in F. -1 if the jth edge of the ith
   %     triangle in F is a border edge. (jth edge refers to the edge opposite
   %     the jth vertex: so triangle in a triangle (a,b,c), the 1st edge is
-  %     b-->c, the 2nd is c-->b and the 3rd is a-->b
+  %     b-->c, the 2nd is c-->a and the 3rd is a-->b
   %   Fi  #faces by 3, where Fi(i,j) tells the position on the neighboring
   %     triangle to the jth edge of the ith triangle in F. -1 if the jth edge
   %     if the ith triangle in F is a border edge. Uses the same indexing of
