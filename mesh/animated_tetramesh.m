@@ -45,6 +45,6 @@ function h = animated_tetramesh(T,X,Y,Z)
   end
 
   h = animated_trisurf(F,X,Y,Z);
-
+  p = add_isolines(h)
 end
 

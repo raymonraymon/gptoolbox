@@ -56,7 +56,7 @@ function [CV,CF] = cylinder_mesh(R,N,varargin);
     end
     [CFs,CVs] = surf2patch(X,Y,Z,surf2patch_params{:});
     CF = [CF;size(CV,1)+CFs];
-    CV = [CV;CVs+[0 0 stack-1]];
+    CV = [CV;bsxfun(@plus,CVs,[0 0 stack-1])];
   end
 
   if caps
@@ -73,6 +73,6 @@ function [CV,CF] = cylinder_mesh(R,N,varargin);
   end
 
   [CV,~,I] = remove_duplicate_vertices(CV,eps);
-  CV = CV./[1 1 stacks];
+  CV = bsxfun(@rdivide,CV,[1 1 stacks]);
   CF = I(CF);
 end
