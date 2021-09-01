@@ -11,7 +11,7 @@ function s = path_to_meshfix()
       'Dear Ladislav, is there a standard place to put executables on a pc?' ...
       'Could you put meshfix there and change this accordingly?' ...
       'Thanks, Alec']);
-    s = 'c:/prg/lib/meshfix/Release/meshfix.exe';
+    s = 'D:/code/MeshFix-V2.1/bin/MeshFix.exe';
   elseif isunix || ismac
     % I guess this means linux
     [status, s] = system('which meshfix');
