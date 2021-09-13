@@ -5,14 +5,13 @@ clear ;
 dbstop if error ;
 warning('off');
 
-xRes = 3;
-yRes = 3;
+xRes = 32;
+  yRes = 32;
   
   wrap = 0;
 
 [vertex,faces,res,edge_norms] = create_regular_grid(xRes,yRes,wrap,wrap);
-
-BI = [1  6];
+BI = [1 4 5 6];
 BC = vertex(BI,:)+rand(length(BI),2);
 
 U = laplacian_mesh_editing(vertex,faces,BI,BC);
@@ -20,16 +19,3 @@ U = laplacian_mesh_editing(vertex,faces,BI,BC);
 drawMesh(vertex,faces);
 hold on 
 drawMesh(U,faces);
-
-
-%%
-[vertex,faces] = subdivided_sphere(2);
-BI = [1  6];
-BC = vertex(BI,:)+rand(length(BI),3);
-
-U = laplacian_mesh_editing(vertex,faces,BI,BC);
-
-drawMesh(vertex,faces);
-hold on 
-drawMesh(U,faces);
-

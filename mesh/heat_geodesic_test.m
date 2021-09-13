@@ -11,13 +11,13 @@
     a=5;
     
 [V,F]=subdivided_sphere(2);
-%[V,F]=readOBJ('..\models\halfsphereNotclose.obj');
+[V,F]=readOBJ('halfsphereNotclose.obj');
 gamma = [38];
 
 if 1
     c = 10;
     t = c * mean(doublearea(V, F))/2;
-    D = heat_geodesic(V,F,gamma,t,'BoundaryConditions','neumann');
+    D = heat_geodesic(V,F,gamma,t,'BoundaryConditions','natural');
 else
     D = geodesics_in_heat(V,F,gamma);
 end
