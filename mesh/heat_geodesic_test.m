@@ -17,7 +17,7 @@ gamma = [38];
 if 1
     c = 10;
     t = c * mean(doublearea(V, F))/2;
-    D = heat_geodesic(V,F,gamma,t,'BoundaryConditions','natural');
+    D = heat_geodesic(V,F,gamma,t,'BoundaryConditions','neumann');
 else
     D = geodesics_in_heat(V,F,gamma);
 end
