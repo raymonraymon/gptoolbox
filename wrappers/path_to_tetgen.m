@@ -11,7 +11,7 @@ function s = path_to_tetgen()
       'Dear Ladislav, is there a standard place to put executables on a pc?' ...
       'Could you put tetgen there and change this accordingly?' ...
       'Thanks, Alec']);
-    s = 'c:/prg/lib/tetgen/Release/tetgen.exe';
+    s = 'D:/code/tetgen1.6.0/build/Release/tetgen.exe';
   elseif ismac || isunix
     % I guess this means linux
     [~,s] = system('which tetgen');
