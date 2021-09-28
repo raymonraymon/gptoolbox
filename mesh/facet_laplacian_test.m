@@ -3,11 +3,16 @@
     close all
     dbstop if error
     warning off all 
-[V,F]= subdivided_sphere(1); 
+
+
+s=100;r=5;  
+
+[V,F] = annulus(s,r);
+
 % load some non-convex shape (V,F)
     [L,E] = facet_laplacian(V,F);
     % find boundary edges
-    B = is_boundary_edge(E,F);
+    B = compute_boundary(F);
     % Construct mass matrix
     [M,mE] = crouzeix_raviart_massmatrix(V,F);
     % Be sure same edges are being used.
