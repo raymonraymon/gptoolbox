@@ -66,7 +66,7 @@ function [K,MK,data] = hks(V,F,varargin)
 
   data.t = exp(linspace(log(tmin),log(tmax),nt));
 
-  K = (data.phi_sqr)*(data.exp_m_lambda.^data.t);
+  K = (data.phi_sqr)*(bsxfun(@power,data.exp_m_lambda,data.t));
   MK = diag(data.M)'*K;
 
 end

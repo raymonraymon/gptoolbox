@@ -1,4 +1,4 @@
-function [DD,E] = normal_derivative(V,F)
+function [DD,E,N] = normal_derivative(V,F)
   % NORMAL_DERIVATIVE Computes the directional derivative **normal** to **all**
   % (half-)edges of a triangle mesh (not just boundary edges). These are
   % integrated along the edge: they're the per-face constant gradient dot the
@@ -42,6 +42,7 @@ function [DD,E] = normal_derivative(V,F)
   dim = size(V,2);
 
   ss = size(F,2);
+  N=[];
   switch ss
   case 4
     % Elements are really tets
@@ -90,26 +91,26 @@ function [DD,E] = normal_derivative(V,F)
       m*3,size(V,1));
     %% REFERENCE VERSION:
     %% gradient for each triangle
-    %G = grad(V,F);
+    G = grad(V,F);
     %% edge vectors
-    %EV = V(E(:,2),:) - V(E(:,1),:);
+    EV = V(E(:,2),:) - V(E(:,1),:);
     %% unit (normalized) normals
-    %V(:,end+1:3) = 0;
-    %FN = normalizerow(normals(V,F));
-    %V = V(:,1:dim);
+    V(:,end+1:3) = 0;
+    FN = normalizerow(normals(V,F));
+    V = V(:,1:dim);
     %% pad with zeros
-    %FN  (:,end+1:3) = 0;
-    %EV(:,end+1:3) = 0;
-    %N = cross(EV,repmat(FN,3,1),2);
+    FN  (:,end+1:3) = 0;
+    EV(:,end+1:3) = 0;
+    N = cross(EV,repmat(FN,3,1),2);
     %% strip padding
-    %N = N(:,1:dim);
-    %DD = sparse( ...
-    %  repmat(1:size(E,1),1,dim)', ...
-    %  reshape(bsxfun(@plus, ...
-    %    repmat(1:size(F,1),1,3)', ...
-    %    (0:dim-1)*size(F,1)),3*size(F,1)*dim,1), ...
-    %  N(:), ...
-    %  size(E,1), ...
-    %  size(F,1)*dim) * G;
+    N = N(:,1:dim);
+    DD = sparse( ...
+     repmat(1:size(E,1),1,dim)', ...
+     reshape(bsxfun(@plus, ...
+       repmat(1:size(F,1),1,3)', ...
+       (0:dim-1)*size(F,1)),3*size(F,1)*dim,1), ...
+     N(:), ...
+     size(E,1), ...
+     size(F,1)*dim) * G;
  end
 end
