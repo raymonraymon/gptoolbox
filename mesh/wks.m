@@ -1,5 +1,5 @@
 function [K,data] = wks(V,F,varargin)
-  % WKS Wave Kernel Signature "TheWave Kernel Signature: A Quantum Mechanical
+  % WKS Wave Kernel Signature "The Wave Kernel Signature: A Quantum Mechanical
   % Approach to Shape Analysis" [Aubry et al. 2011]
   %
   % Inputs:

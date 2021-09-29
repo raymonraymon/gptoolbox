@@ -62,7 +62,7 @@ function HF = fill_holes(SV,SF,varargin)
       tV = tV+e*(2*rand(size(tV,1),size(tV,2))-1);
       e = e*2;
     end
-    [EVV,EF] = triangulate(tV,E);
+    [EVV,EF] = triangle(tV,E,[], 'MaxArea',2.5, 'Quality',10,'MaxSteiners',500);
 
     if size(EVV,1) ~= size(EV,1)
       EF = [];
