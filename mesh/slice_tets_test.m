@@ -4,7 +4,7 @@
     dbstop if error
     warning off all  
     
-    [V,T] = readTET('bunny.TET');
+    [V,T] = readTET('..\models\bunny.TET');
     V=V(:,1:3);
     T=T(:,1:4);
     % Tet mesh in (V,T)
