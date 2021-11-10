@@ -11,7 +11,7 @@ function [W,G] = decimation(V,F,percent)
   %   G  #G by 3 list of output triangle indices
   %
   if nargin < 3
-      percentage = '0.3';
+      percentage = '0.1';
   elseif percent > 1.0
     W=V;
     G=F;

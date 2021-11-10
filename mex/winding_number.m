@@ -21,8 +21,8 @@ function [W] = winding_number(V,F,O,varargin)
   %  W  no by 1 list of winding numbers
   %
 
-  warning('not mex...');
-  S = solid_angle(V,F,O);
+  %warning('not mex...');
+  S = solid_angle_in(V,F,O);
   W = sum(S,2);
   switch size(F,2)
   case 3

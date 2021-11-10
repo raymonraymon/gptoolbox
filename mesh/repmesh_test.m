@@ -1,7 +1,8 @@
+close all
 dbstop if error
 [V,F] = subdivided_sphere(3);
     V = V*0.1;
-    C = rand(9,3);
+    C = rand(19,3);
     [VV,FF] = repmesh(V,F,C);
     % Color based on original mesh vertex index
     tsurf(FF,VV,'CData',mod(1:size(VV,1),size(V,1))',fphong)
