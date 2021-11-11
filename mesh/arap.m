@@ -213,7 +213,7 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     mom = 1e10;
     M = massmatrix(V,F);
     DQ = 0.5*mom*M;
-    Dl =     mom*M*(-2*V0 + Vm1) - h^2*fext;
+    Dl = mom*M*(-2*V0 + Vm1) - h^2*fext;
   else
     dyn_alpha = 1;
     DQ = sparse(size(V,1),size(V,1));
