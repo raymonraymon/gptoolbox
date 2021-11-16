@@ -12,7 +12,7 @@ function [S,detF] = solid_angle_matlab(V,F,O,legacy)
   warning('Compile gptoolbox/mex/solid_angle.cpp for better performance ...');
 
   dim = size(V,2);
-  %assert(size(F,2) == dim);
+  assert(size(F,2) == dim);
 
   if ~exist('legacy','var')
     legacy = false;
