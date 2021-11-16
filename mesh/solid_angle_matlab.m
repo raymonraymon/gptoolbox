@@ -1,4 +1,4 @@
-function [S,detF] = solid_angle(V,F,O,legacy)
+function [S,detF] = solid_angle_matlab(V,F,O,legacy)
   % SOLID_ANGLE Compute the solid angle of a triangle (tetrahedron) described
   % by points V
   %

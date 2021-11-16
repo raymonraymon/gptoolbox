@@ -1,14 +1,17 @@
-    clc
-    clear
+clc    
+clear
     close all
     dbstop if error
     warning off all  
-    
-    [V,T] = readTET('../models/bunny.TET');
-    V=V(:,1:3);
-    T=T(:,1:4);
-    h = animated_tetramesh(T,V(:,1),V(:,2),V(:,3));
-    view(3);
+	x=2;
+y=2;
+z=2;
+[V,F,Q] = cube(x,y,z);
+drawMesh(V,F,'facealpha',0.5);
+iter =2;
+[VV, FF, S] = loop_test(V, F, iter);
+drawMesh(VV,FF);
+view(3);
         axis equal
         axis off
         camlight
