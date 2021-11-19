@@ -1,4 +1,4 @@
-function [v,sv] = volume(V,T)
+function [v] = volume(V,T)
   % VOLUME Compute volumes of tets T defined over vertices V
   %
   % v = volume(V,T)

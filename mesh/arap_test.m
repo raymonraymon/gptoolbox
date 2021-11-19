@@ -34,42 +34,58 @@ dbstop if error
 
 
 %%
-%dim = 3
-[V,F]=subdivided_sphere(2);
-figure;
-drawMesh(V,F,'FaceAlpha',.5);
-b=[1,80];
-bc =V(b,:)+[1 0 0;
-    0 0 1];
-%%
-[U,data,SS,R] = arap(V,F,b,bc);%,'Flat',true,'Energy','elements'
+% %dim = 3
+% [V,F]=subdivided_sphere(2);
+% figure;
+% drawMesh(V,F,'FaceAlpha',.5);
+% b=[1,80];
+% bc =V(b,:)+[1 0 0;
+%     0 0 1];
+% %%
+% [U,data,SS,R] = arap(V,F,b,bc);%,'Flat',true,'Energy','elements'
+% 
+% drawMesh(U,F);
+% view(3)
+% %zoom out
+% %zoom(1.5)
+% title('arap solution');
+% axis equal; 
+% axis vis3d;
 
-drawMesh(U,F);
-view(3)
-%zoom out
-%zoom(1.5)
-title('arap solution');
-axis equal; 
-axis vis3d;
-
 %%
-if 1
+if 0
 [V,T] = readTET('..\models\bunny.TET');
     V=V(:,1:3);
     T=T(:,1:4);
 else
-    [V,T,F] = regular_tetrahedral_mesh(5,5,5);
+    [V,T,~] = regular_tetrahedral_mesh(5,5,5);
+    temp = T(:,1);
+    T(:,1) = T(:,2);
+    T(:,2) = temp;
 end
 
+v1 = sum(volume(V,T))
 [F,J,K] = boundary_faces(T);
 figure;
 drawMesh(V,F,'FaceAlpha',0.5);
 
-b=[10,80];
-bc =V(b,:)+[0.01 0 0.04;0.02 0 0];
+
+b=63;
+bc =V(b,:)+[0.0 0 0.00];
 [U,data,SS,R] = arap(V,T,b,bc);
+v2 = sum(volume(U,T))
 
 drawMesh(U,F,'FaceColor',[0.8 0.18 0.8]);
+[RV,IM,J,IMF] = remove_unreferenced(U,F);
+% temp = IMF(:,1);
+% IMF(:,1) = IMF(:,2);
+% IMF(:,2) = temp;
+% 
+% temp = F(:,1);
+% F(:,1) = F(:,2);
+% F(:,2) = temp;
+writeOBJ('../models/arapinput.obj',V,F);
+writeOBJ('../models/arapresult.obj',RV,IMF);
 view(3)
 %zoom out
 %zoom(1.5)
