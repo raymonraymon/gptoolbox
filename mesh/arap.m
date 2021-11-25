@@ -329,7 +329,6 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
   iteration = 1;
   U_prev = V;
   data.energy = inf;
-  Adjinfo = tet_adjacency(F,'type','edge');
   while true
 
     if iteration > max_iterations
@@ -340,28 +339,6 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     end
 
     if iteration > 1
-        if debug
-        if dim == 3 && size(F,2) == 3
-            clf
-            h = drawMesh(U,F);
-            drawnow;
-            pause(0.5);
-        elseif dim== 2
-        elseif dim== 3 && size(F,2) == 4
-            [boundaryF,J,K] = boundary_faces(F);
-            clf
-            h = drawMesh(U,boundaryF,'FaceAlpha',0.5);  
-            writeOBJ(['../models/arapresult_',num2str(iteration),'.obj'],U,boundaryF);
-            drawnow;
-            xlabel('x');
-            ylabel('y');
-            zlabel('z');
-            pause(0.5);
-        else
-            assert(dim==2|3|4);
-        end
-        end
-           
       change = max(abs(U(:)-U_prev(:)));
       if debug
         fprintf('arap: iter: %d, change: %g, energy: %g\n', ...
@@ -389,66 +366,6 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     SS = permute(reshape(S,[size(data.CSM,1)/dim dim dim]),[2 3 1]);
     % fit rotations to each deformed vertex
     R = fit_rotations(SS,'SinglePrecision',false);
-    
-    if dim == 3 && size(F,2) == 4
-        demoldDir = [0,1,0];
-        demoldDir = demoldDir./norm(demoldDir);
-        sigma = 0.02;
-        %遍历每个四面体，如果这个四面体有boundaryface
-        [boundaryF,J,K] = boundary_faces(F);        
-        %则进入下一步，遍历这个四面体的boundaryface，如果
-        %某个face的法向与输入方向成钝角且三个点都在平面的一侧
-        [nbf,~]=size(boundaryF);
-        plane   = createPlane([0 0 0], [0 1 0]);   
-        
-        for i = 1:nbf
-            Tet = U(F(J(i),:),:)*R(:,:,J(i));
-            Tet(K(i),:)=[];
-            point1   = Tet(1,:);                    
-            dist1    = distancePointPlane(point1, plane);
-            point2   = Tet(2,:);                    
-            dist2    = distancePointPlane(point2, plane);
-            point3   = Tet(3,:);                    
-            dist3    = distancePointPlane(point3, plane);
-
-            normalbf = cross(Tet(2,:)-Tet(1,:),Tet(3,:)-Tet(1,:));
-            normalbf = normalbf./norm(normalbf);
-            %A = tet_adjacency(F,J(i));
-            n = size(Adjinfo{J(i)},2);
-            r = 0.1;
-            if dot(demoldDir,normalbf) < sigma && dist1 < 0 && dist2 < 0 && dist3 < 0
-                %则进入下一步 计算这个解除倒凹的旋转，然后叠加在R中
-                %构造一个四元数作为旋转，角度等于d-N夹角减去90度
-                theta = acos(max(dot(demoldDir,normalbf)-sigma,-1))-pi/2;
-                axis = cross(demoldDir,normalbf);
-                q = axisangle2quat(axis,theta);
-                %把四元数转成旋转矩阵
-                R(:,:,J(i)) = R(:,:,J(i))* quat2mat(q)*(1-r);
-                for j =1:n
-                    R(:,:,Adjinfo{J(i)}(j)) = R(:,:,Adjinfo{J(i)}(j))* quat2mat(q)*(r/n);
-                end
-            end
-            
-            
-            if 0 && dot(-demoldDir,normalbf) < sigma && dist1 > 0 && dist2 > 0 && dist3 > 0
-                %则进入下一步 计算这个解除倒凹的旋转，然后叠加在R中
-                %构造一个四元数作为旋转，角度等于d-N夹角减去90度
-                theta = acos(max(dot(-demoldDir,normalbf)-sigma,-1))-pi/2;
-                axis = cross(-demoldDir,normalbf);
-                q = axisangle2quat(axis,theta);
-                %把四元数转成旋转矩阵
-                if 1
-                    R(:,:,J(i)) = R(:,:,J(i))* quat2mat(q)*(1-r);
-                    for j =1:n
-                        R(:,:,Adjinfo{J(i)}(j)) = R(:,:,Adjinfo{J(i)}(j))* quat2mat(q)*(r/n);
-                    end
-                else
-                    R(:,:,J(i)) = R(:,:,J(i))* quat2mat(q);
-                end
-            end
-        end
-        
-    end
 
     % energy after last local step
     U(b,:) = bc;
