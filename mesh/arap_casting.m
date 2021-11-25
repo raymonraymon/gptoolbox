@@ -1,4 +1,4 @@
-function [U,data,SS,R] = arap(V,F,b,bc,varargin)
+function [U,data,SS,R] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,varargin)
   % ARAP Solve for the as-rigid-as-possible deformation according to various
   % manifestations including:
   %   (1) "As-rigid-as-possible Surface Modeling" by [Sorkine and Alexa 2007]
@@ -329,6 +329,9 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
   iteration = 1;
   U_prev = V;
   data.energy = inf;
+  if size(F,2) == 4  
+  [boundaryF,J,K] = boundary_faces(F);%
+  end
   while true
 
     if iteration > max_iterations
@@ -339,6 +342,34 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     end
 
     if iteration > 1
+        if debug
+        if dim == 3 && size(F,2) == 3
+            clf
+            h = drawMesh(U,F);
+            drawnow;
+            pause(0.5);
+        elseif dim== 2
+        elseif dim== 3 && size(F,2) == 4
+            [boundaryF,J,K] = boundary_faces(F);
+            clf
+            h = drawMesh(U,boundaryF,'FaceAlpha',0.5);              
+            drawnow;
+            xlabel('x');
+            ylabel('y');
+            zlabel('z');
+        view(3);
+        axis equal
+        xlabel('x');
+        ylabel('y');
+        zlabel('z');
+        camlight
+        lighting gouraud
+        set(gca, 'Position',[0 0 1 1]);
+        else
+            assert(dim==2|3|4);
+        end
+        end
+           
       change = max(abs(U(:)-U_prev(:)));
       if debug
         fprintf('arap: iter: %d, change: %g, energy: %g\n', ...
@@ -366,6 +397,90 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     SS = permute(reshape(S,[size(data.CSM,1)/dim dim dim]),[2 3 1]);
     % fit rotations to each deformed vertex
     R = fit_rotations(SS,'SinglePrecision',false);
+    nbT = size(F,1);       
+    if  dim == 3 && size(F,2) == 4
+  
+        %遍历每个四面体，如果这个四面体有boundaryface
+        
+        %则进入下一步，遍历这个四面体的boundaryface，如果
+        %某个face的法向与输入方向成钝角且三个点都在平面的一侧
+        [nbf,~]=size(boundaryF);
+        q = zeros(nbT,4);
+        q(:,1) = ones(nbT,1);
+        for i = 1:nbf
+            %如何计算朝外的法线
+            Utemp = U;%*R(:,:,J(i));
+
+            point1   = Utemp(boundaryF(i,1),:);                    
+            dist1    = distancePointPlane(point1, plane);
+            point2   = Utemp(boundaryF(i,2),:);                    
+            dist2    = distancePointPlane(point2, plane);
+            point3   = Utemp(boundaryF(i,3),:);                    
+            dist3    = distancePointPlane(point3, plane);
+
+            normalbf = cross(Utemp(boundaryF(i,2),:)-Utemp(boundaryF(i,1),:),Utemp(boundaryF(i,3),:)-Utemp(boundaryF(i,1),:));
+            normalbf = normalbf./norm(normalbf);
+            facecenter = 1/3*(point1+point2+point3);  
+            %quiver3(facecenter(:,1),facecenter(:,2),facecenter(:,3),normalbf(:,1),normalbf(:,2),normalbf(:,3),0.5);
+            %%
+            %得到朝外的法线后            
+                      
+            if dot(demoldDir,normalbf) < sigma && dist1 > 0 && dist2 > 0 && dist3 > 0                
+                quiver3(facecenter(:,1),facecenter(:,2),facecenter(:,3),normalbf(:,1),normalbf(:,2),normalbf(:,3),0.5);
+                %则进入下一步 计算这个解除倒凹的旋转，然后叠加在R中
+                %构造一个四元数作为旋转，角度等于d-N夹角减去90度
+                theta = acos(max(dot(demoldDir,normalbf)-sigma,-1))-pi/2;
+                axTemp = cross(demoldDir,normalbf);
+                %%
+                qtest = axisangle2quat(axTemp,-theta);
+                Vplot = [point1;point2;point3]*quat2mat(qtest);
+                drawMesh(Vplot,[1 2 3],'facecolor','y','edgecolor','g');
+                %%
+                q(J(i),:) = quatmultiply(q(J(i),:),qtest);
+            end
+            
+            
+            if dot(-demoldDir,normalbf) < sigma && dist1 < 0 && dist2 < 0 && dist3 < 0
+                quiver3(facecenter(:,1),facecenter(:,2),facecenter(:,3),normalbf(:,1),normalbf(:,2),normalbf(:,3),0.5);
+                %则进入下一步 计算这个解除倒凹的旋转，然后叠加在R中
+                %构造一个四元数作为旋转，角度等于d-N夹角减去90度
+                %drawMesh(Tet,[1,2,3]);
+                theta = acos(max(dot(-demoldDir,normalbf)-sigma,-1))-pi/2;
+                axTemp = cross(-demoldDir,normalbf);
+                %%
+                qtest = axisangle2quat(axTemp,-theta);
+                Vplot = [point1;point2;point3]*quat2mat(qtest);
+                drawMesh(Vplot,[1 2 3],'facecolor','m','edgecolor','b');
+                %%
+                q(J(i),:) = quatmultiply(q(J(i),:),qtest);                
+            end
+        end
+        %%
+        %对得到的四元数做smooth!然后再乘上各自的R。
+        %对q中每个非1的四元数，得到它的邻居信息，然后blend
+        lastq = zeros(nbT,4);
+        lastq(:,1) = ones(nbT,1);
+        r = 0.01;
+        temp =[1,0,0,0];
+        for i = 1:nbT
+            if norm(q(i,:) - [1,0,0,0]) >eps
+                n = size(Adjinfo{i},2);                                
+                for j = 1:n-1
+                    temp = quatmultiply(temp,quatslerp(q(Adjinfo{i}(j),:),q(Adjinfo{i}(j+1),:),1/(j+1)));%不是均分
+                end
+                lastq(i,:) = quatslerp(q(i,:),temp,r);
+            end
+        end
+        if 1
+            for i = 1:nbT
+                R(:,:,i) = R(:,:,i) * quat2mat(lastq(i,:));
+            end
+        else
+            for i = 1:nbT
+                R(:,:,i) = R(:,:,i) * quat2mat(q(i,:));
+            end            
+        end
+    end
 
     % energy after last local step
     U(b,:) = bc;
