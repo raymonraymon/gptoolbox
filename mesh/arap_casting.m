@@ -1,4 +1,4 @@
-function [U,data,SS,R] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,varargin)
+function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,lastchange,varargin)
   % ARAP Solve for the as-rigid-as-possible deformation according to various
   % manifestations including:
   %   (1) "As-rigid-as-possible Surface Modeling" by [Sorkine and Alexa 2007]
@@ -381,7 +381,12 @@ function [U,data,SS,R] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,var
         end
         break;
       end
+      if change > lastchange
+          fprintf('arap: change error')
+          break;
+      end       
     end
+    
 
     U_prev = U;
 
@@ -393,6 +398,9 @@ function [U,data,SS,R] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,var
     % compute covariance matrix elements
     S = zeros(size(data.CSM,1),dim);
     S(:,1:dim) = data.CSM*repmat(U,dim,1);
+    if ~isreal(S)      
+        S = real(S);
+    end
     % dim by dim by n list of covariance matrices
     SS = permute(reshape(S,[size(data.CSM,1)/dim dim dim]),[2 3 1]);
     % fit rotations to each deformed vertex
@@ -534,6 +542,9 @@ function [U,data,SS,R] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,var
         U = reshape(U,[],dim);
       end
     end
+   if ~isreal(U)
+       U= real(U);
+   end
     energy_prev = data.energy;
     data.energy = trace(U'*(zQ)*U+U'*(zL))+trace(V'*(0.5*dyn_alpha*data.L*V));
     if data.energy > energy_prev

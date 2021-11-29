@@ -31,8 +31,8 @@ switch k
     [SV,SF]=subdivided_sphere(2);
     %drawMesh(SV,SF,'FaceAlpha',.5);
     [V,T,F] = tetgen(SV,SF);
-    [~,b]=min(abs(V(:,1))+abs(V(:,2))+abs(V(:,3)));
-    %b=find(abs(V(:,2))<0.015);
+    %[~,b]=min(abs(V(:,1))+abs(V(:,2))+abs(V(:,3)));
+    b=find(abs(V(:,2))<0.015);
     bc =V(b,:);
     V(1,:) = V(1,:)+[0.0,0.75,0.75];
     V(2,:) = V(2,:)+[0.0,-0.75,0.75];
