@@ -80,8 +80,8 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
   %
 
   % parse input
-  G = [];
-
+  %G = [];
+  change = lastchange+eps;
   % number of vertices
   n = size(V,1);
   assert(isempty(b) || max(b) <= n,'b should be in bounds [1,size(V,1)]');
@@ -404,7 +404,11 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
     % dim by dim by n list of covariance matrices
     SS = permute(reshape(S,[size(data.CSM,1)/dim dim dim]),[2 3 1]);
     % fit rotations to each deformed vertex
-    R = fit_rotations(SS,'SinglePrecision',false);
+    if ~any(isnan(SS))
+        R = fit_rotations(SS,'SinglePrecision',false);
+    else        
+        break;
+    end
     nbT = size(F,1);       
     if  dim == 3 && size(F,2) == 4
   
@@ -434,22 +438,22 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
             %得到朝外的法线后            
                       
             if dot(demoldDir,normalbf) < sigma && dist1 > 0 && dist2 > 0 && dist3 > 0                
-                quiver3(facecenter(:,1),facecenter(:,2),facecenter(:,3),normalbf(:,1),normalbf(:,2),normalbf(:,3),0.5);
+                %quiver3(facecenter(:,1),facecenter(:,2),facecenter(:,3),normalbf(:,1),normalbf(:,2),normalbf(:,3),0.5);
                 %则进入下一步 计算这个解除倒凹的旋转，然后叠加在R中
                 %构造一个四元数作为旋转，角度等于d-N夹角减去90度
                 theta = acos(max(dot(demoldDir,normalbf)-sigma,-1))-pi/2;
                 axTemp = cross(demoldDir,normalbf);
                 %%
                 qtest = axisangle2quat(axTemp,-theta);
-                Vplot = [point1;point2;point3]*quat2mat(qtest);
-                drawMesh(Vplot,[1 2 3],'facecolor','y','edgecolor','g');
+                %Vplot = [point1;point2;point3]*quat2mat(qtest);
+                %drawMesh(Vplot,[1 2 3],'facecolor','y','edgecolor','g');
                 %%
                 q(J(i),:) = quatmultiply(q(J(i),:),qtest);
             end
             
             
             if dot(-demoldDir,normalbf) < sigma && dist1 < 0 && dist2 < 0 && dist3 < 0
-                quiver3(facecenter(:,1),facecenter(:,2),facecenter(:,3),normalbf(:,1),normalbf(:,2),normalbf(:,3),0.5);
+                %quiver3(facecenter(:,1),facecenter(:,2),facecenter(:,3),normalbf(:,1),normalbf(:,2),normalbf(:,3),0.5);
                 %则进入下一步 计算这个解除倒凹的旋转，然后叠加在R中
                 %构造一个四元数作为旋转，角度等于d-N夹角减去90度
                 %drawMesh(Tet,[1,2,3]);
@@ -457,8 +461,8 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
                 axTemp = cross(-demoldDir,normalbf);
                 %%
                 qtest = axisangle2quat(axTemp,-theta);
-                Vplot = [point1;point2;point3]*quat2mat(qtest);
-                drawMesh(Vplot,[1 2 3],'facecolor','m','edgecolor','b');
+                %Vplot = [point1;point2;point3]*quat2mat(qtest);
+                %drawMesh(Vplot,[1 2 3],'facecolor','m','edgecolor','b');
                 %%
                 q(J(i),:) = quatmultiply(q(J(i),:),qtest);                
             end

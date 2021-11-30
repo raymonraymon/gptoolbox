@@ -11,9 +11,9 @@ dbstop if error
 % [V,T,F] = tetgen(SV1,SF1);
 % writeOBJ('..\models\bunnyTet.obj',V,T);
 
-[V,T] = readOBJ('..\models\bunnyTet.obj','Quads','true','SimplexSize',4);
+[V,T] = readOBJ('..\models\arapresult.obj','Quads','true','SimplexSize',4);
 %%
-%qmat Ëã·¨
+%qmat result
 mat = [ -0.510064702615931 2.027561358924207 -0.402608743937703
  -0.563888441712865 -1.439689473027668 1.158769858389743
  -0.870814948076982 -0.523793432125442 0.293504004583491
@@ -55,20 +55,30 @@ drawMesh(V,F);
 tic
 Adjinfo = tet_adjacency(T,'type','face');
 toc
-demoldDir = [1,1,-1];
+%%
+  demoldDir = [1 1 -1];
   demoldDir = demoldDir./norm(demoldDir);  
   center = mean(V);
-  center = center -0.25*demoldDir;
+  center = center + 0.1*demoldDir;
   plane   = createPlane(center, demoldDir); 
   sigma = 0.03;
   [x,y]=meshgrid(-3:0.1:3);
   z = center(3) - 1/demoldDir(3)*(demoldDir(1)*(x-center(1))+demoldDir(2)*(y-center(2)));
   mesh(x,y,z);
+  Vplane = zeros(size(x,1)*size(x,2),3);
+  for i = 1:size(x,1)
+      for j = 1:size(x,2)
+          Vplane((i-1)*size(x,1)+j,:) = [x(i,j) y(i,j) z(i,j)];
+      end
+  end     
+  writeOBJ('..\models\bunnyCastingPlane.obj',Vplane,[]);
+  %%
   lastchange = 1000;
 for ii = 1:30
     ii
-    [U,data,SS,R,change] = arap_casting(V,T,Adjinfo,demoldDir,plane,sigma,b,bc,lastchange); 
+    [U,data,SS,R,change] = arap_casting(V,T,Adjinfo,demoldDir,plane,sigma,b,bc,lastchange);     
     if change > lastchange
+        writeOBJ('../models/arapresult.obj',V,T);
         break;
     else
         lastchange = change;
@@ -97,13 +107,12 @@ for ii = 1:30
             elseif dot(-demoldDir,normalbf) < sigma && dist1 < 0 && dist2 < 0 && dist3 < 0 
                 if dot(-demoldDir,normalbf) <sigma/2
                     kk = kk+1;
-                end
-                
-                drawMesh([point1;point2;point3],[1 2 3],'facecolor','k','edgecolor','b');
-            else
+                end                
+                drawMesh([point1;point2;point3],[1 2 3],'facecolor','k','edgecolor','b');            
             end
     end
     if kk == 0
+        writeOBJ('../models/arapresult.obj',V,T);
         break;
     end
     V=U;
@@ -113,8 +122,6 @@ v2 = sum(volume(U,T))
 figure;
 drawMesh(U,F,'FaceColor',[0.8 0.18 0.8]);
 
-
-writeOBJ('../models/arapresult.obj',U,T);
 %%
 
 xlabel('x');
