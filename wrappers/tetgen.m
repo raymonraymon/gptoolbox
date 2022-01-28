@@ -27,7 +27,7 @@ function [V,T,F] = tetgen(SV,SF,varargin)
 
   SH = [];
   % default values
-  flags = '-q2';
+  flags ='-pq0.8/0';%'-q2';
   verbose = false;
   % Map of parameter names to variable names
   params_to_variables = containers.Map( ...

@@ -186,7 +186,7 @@ function [U,data,SS,R] = arap(V,F,b,bc,varargin)
     bc = sparse(0,dim);
   end
 
-  assert(dim == size(bc,2));
+  %assert(dim == size(bc,2));
   assert(size(Aeq,1) == size(Beq,1));
   assert((size(Aeq,2) == 0) || (size(Aeq,2) == dim*size(V,1)));
 

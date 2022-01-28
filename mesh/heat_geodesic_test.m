@@ -11,7 +11,7 @@
     a=5;
     
 [V,F]=subdivided_sphere(2);
-[V,F]=readOBJ('halfsphereNotclose.obj');
+%[V,F]=readOBJ('..\models\halfsphereNotclose.obj');
 gamma = [38];
 
 if 1
