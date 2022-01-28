@@ -30,7 +30,7 @@ switch k
     case 2
     [SV,SF]=subdivided_sphere(2);
     %drawMesh(SV,SF,'FaceAlpha',.5);
-    [V,T,F] = tetgen(SV,SF);
+    [V,T,F] = tetgen(SV,SF);% cdt function wrapper        
     %[~,b]=min(abs(V(:,1))+abs(V(:,2))+abs(V(:,3)));
     b=find(abs(V(:,2))<0.015);
     bc =V(b,:);
@@ -54,9 +54,10 @@ view(3)
   demoldDir = demoldDir./norm(demoldDir);  
   plane   = createPlane([0 0 0], [0 1 0]); 
   sigma = 0.02;
+  lastchange = 1000.0;
 for ii = 1:30
     ii
-    [U,data,SS,R] = arap_casting(V,T,Adjinfo,demoldDir,plane,sigma,b,bc);
+    [U,data,SS,R,change,flag] = arap_casting(V,T,Adjinfo,demoldDir,plane,sigma,b,bc,lastchange);
     writeOBJ(['../models/arapresult_',num2str(k),'_',num2str(ii),'.obj'],U,F);
     [RV,IM,J,IMF] = remove_unreferenced(U,F);
     %画出仍然不符合脱模条件的面片

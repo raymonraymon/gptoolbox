@@ -1,4 +1,4 @@
-function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,lastchange,varargin)
+function [U,data,SS,R,change,flag] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b,bc,lastchange,varargin)
   % ARAP Solve for the as-rigid-as-possible deformation according to various
   % manifestations including:
   %   (1) "As-rigid-as-possible Surface Modeling" by [Sorkine and Alexa 2007]
@@ -81,6 +81,7 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
 
   % parse input
   %G = [];
+  flag = 1;
   change = lastchange+eps;
   % number of vertices
   n = size(V,1);
@@ -381,7 +382,7 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
         end
         break;
       end
-      if change > lastchange
+      if change > lastchange * 5 
           fprintf('arap: change error')
           break;
       end       
@@ -391,7 +392,12 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
     U_prev = U;
 
     % energy after last global step
-    U(b,:) = bc;
+    if 1
+        U(b,:) = bc;
+    else
+        U(b,:) = projPointOnPlane(U(b,:), plane);
+    end
+    
     %E = arap_energy(V,F,U,R);
     %[1 E]
 
@@ -406,7 +412,8 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
     % fit rotations to each deformed vertex
     if ~any(isnan(SS))
         R = fit_rotations(SS,'SinglePrecision',false);
-    else        
+    else     
+        flag = 0;
         break;
     end
     nbT = size(F,1);       
@@ -495,7 +502,7 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
     end
 
     % energy after last local step
-    U(b,:) = bc;
+    %U(b,:) = bc;
     %E = arap_energy(V,F,U,R);
     %[2 E]
 
@@ -509,7 +516,7 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
       R = R(:,:,data.G);
     end
 
-    U(b,:) = bc;
+    %U(b,:) = bc;
 
     %B = arap_rhs(V,F,R);
     Rcol = reshape(permute(R,[3 1 2]),size(data.K,2),1);
@@ -551,7 +558,7 @@ function [U,data,SS,R,change] = arap_casting(V,F,Adjinfo,demoldDir,plane,sigma,b
    end
     energy_prev = data.energy;
     data.energy = trace(U'*(zQ)*U+U'*(zL))+trace(V'*(0.5*dyn_alpha*data.L*V));
-    if data.energy > energy_prev
+    if data.energy > energy_prev * 0.85
       if debug
         fprintf('arap: energy (%g) increasing (over %g) (iter %d)\n', ...
           data.energy,energy_prev,iteration);

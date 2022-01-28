@@ -5,7 +5,7 @@ close all
 dbstop if error
 s=100;r=5;  
 
-[SV,SF] = readOBJ('halfsphereNotclose.obj');
+[SV,SF] = readOBJ('..\models\halfsphereNotclose.obj');
 HF = fill_holes(SV,SF);
 
 

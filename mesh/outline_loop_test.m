@@ -2,7 +2,7 @@ clc
 clear
 close all
 %[V,F] = subdivided_sphere(2);
-[V,F]=readOBJ('halfsphereNotclose.obj');
+[V,F]=readOBJ('..\models\halfsphereNotclose.obj');
 O = outline(F);
    loops = {};
    while ~isempty(O)

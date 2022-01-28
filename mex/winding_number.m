@@ -22,9 +22,14 @@ function [W] = winding_number(V,F,O,varargin)
   %
 
   %warning('not mex...');
-  S = solid_angle_in(V,F,O);
+  if size(V,2)==2
+      V=[V,zeros(size(V,1),1)];
+  end
+  S = solid_angle_matlab(V,F,O);
   W = sum(S,2);
   switch size(F,2)
+  case 2
+    W = W/(pi);
   case 3
     W = W/(2*pi);
   case 4

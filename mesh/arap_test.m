@@ -6,6 +6,7 @@ clc
 dbstop if error
 
 %%
+if 0
 %dim = 2
   xRes = 32;
   yRes = 32;
@@ -31,7 +32,7 @@ bc =V(b,:)+[0 0.01 ;
 [U,data,SS,R] = arap(V,F,b,bc);
 Uplot = [U(:,1), U(:,2), zeros(size(U,1),1)];
 tsurf(F,Uplot,'FaceAlpha',0.25);
-
+end
 
 %%
 %dim = 3
@@ -42,7 +43,7 @@ b=[1,80];
 bc =V(b,:)+[2 0 0;
     0 0 2];
 %%
-[U,data,SS,R] = arap(V,F,b,bc);
+[U] = arap_min3Dtri(V,F,b,bc);
 
 drawMesh(U,F);
 view(3)
