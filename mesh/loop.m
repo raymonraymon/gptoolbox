@@ -153,16 +153,16 @@ for i=1:iter
     VV = S*VV;
     SS = S*SS;
 
-    %trisurf(F,V(:,1),V(:,2),V(:,3),'FaceAlpha',0.1,'FaceColor','r','EdgeColor',[0.3 0 0]);
-    %hold on;
-    %trisurf(F,VVeven(:,1),VVeven(:,2),VVeven(:,3),'FaceAlpha',0.1,'FaceColor','b','EdgeColor',[0 0 0.3]);
-    %trisurf(FF,VV(:,1),VV(:,2),VV(:,3),'FaceAlpha',0.1,'FaceColor','g','EdgeColor',[0 0.3 0.0]);
-    %plot3(VVodd(:,1),VVodd(:,2),VVodd(:,3),'y.');
-    %hold off;
-    %view(2);
-
-    %tsurf(F,V);
-    %text(V(:,1),V(:,2),V(:,3),num2str(S(694,:)'),'BackgroundColor',[.8 .8 .8]);
+%     trisurf(F,V(:,1),V(:,2),V(:,3),'FaceAlpha',0.1,'FaceColor','r','EdgeColor',[0.3 0 0]);
+%     hold on;
+%     trisurf(F,VVeven(:,1),VVeven(:,2),VVeven(:,3),'FaceAlpha',0.1,'FaceColor','b','EdgeColor',[0 0 0.3]);
+%     trisurf(FF,VV(:,1),VV(:,2),VV(:,3),'FaceAlpha',0.1,'FaceColor','g','EdgeColor',[0 0.3 0.0]);
+%     plot3(VVodd(:,1),VVodd(:,2),VVodd(:,3),'y.');
+%     hold off;
+%     view(2);
+% 
+%     tsurf(F,V);
+%     text(V(:,1),V(:,2),V(:,3),num2str(S(694,:)'),'BackgroundColor',[.8 .8 .8]);
 end
 
 end

@@ -4,7 +4,9 @@ close all
 dbstop if error
 [V,F] = subdivided_sphere(2);
 
-[H] = discrete_mean_curvature(V,F);
+%[H] = discrete_mean_curvature(V,F);
+
+[k,H,K,M,T] = discrete_curvatures(V,F);
 
 drawMesh(V,F,'FaceVertexCData',H, 'facecolor','interp', 'edgecolor','none');
         view(3);

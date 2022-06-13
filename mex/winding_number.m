@@ -22,10 +22,11 @@ function [W] = winding_number(V,F,O,varargin)
   %
 
   %warning('not mex...');
-  if size(V,2)==2
-      V=[V,zeros(size(V,1),1)];
-  end
+%   if size(V,2)==2
+%       V=[V,zeros(size(V,1),1)];
+%   end
   S = solid_angle_matlab(V,F,O);
+  %S = solid_angle(V,F,O);% for 3D
   W = sum(S,2);
   switch size(F,2)
   case 2

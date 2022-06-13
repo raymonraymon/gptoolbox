@@ -39,6 +39,7 @@ function [k,H,K,M,T] = discrete_curvatures(V,F)
     assert(isequal(CI,AI));
     assert(isequal(CJ,AJ));
     % index into F(:)
+    l = edge_lengths(V,F);
     opp = sub2ind(size(l),CI,CV);
     inc = [ ...
       sub2ind(size(l),CI,mod(CV+1-1,3)+1) ...

@@ -55,8 +55,9 @@ function [S,detF] = solid_angle_matlab(V,F,O,legacy)
       %for o = 1:size(O,1)
       %  S(:,o) = solid_angle(V,F,O(o,:),true);
       %end
+      tempresult = bsxfun(@minus,V(:,1:3),permute(O,[3 2 1]));
 
-      V = permute(bsxfun(@minus,V,permute(O,[3 2 1])),[1 3 2]);
+      V = permute(tempresult,[1 3 2]);
       % loop over faces
       for f = 1:size(F,1)
         % determinant for each triangle with vectors as columns
