@@ -3,6 +3,7 @@ clear
 close all
 %[V,F] = subdivided_sphere(2);
 [V,F]=readOBJ('..\models\halfsphereNotclose.obj');
+drawMesh(V,F);
 O = outline(F);
    loops = {};
    while ~isempty(O)

@@ -24,4 +24,5 @@ function [C,A,uE2F,uE] = manifold_patches(F)
   % Connected components are patches
   [~,C] = conncomp(A);
 
+
 end

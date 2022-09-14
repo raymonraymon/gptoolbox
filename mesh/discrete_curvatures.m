@@ -24,12 +24,14 @@ function [k,H,K,M,T] = discrete_curvatures(V,F)
   M = massmatrix(V,F);
   %k = M*((M\H) + [1 -1].*sqrt((M\H).^2 - M\K));
   % Precision optimization:
-  % h±m√((h/m)² - (k/m))
-  % h±m√(h²/m² - km/m²)
-  % h±m√(h²-km)/√m²
-  % h±m√(h²-km)/m
-  % h±√(h²-km)
-  k = H + [1 -1].*sqrt(H.^2 - M*K);
+  % h±m�?(h/m)² - (k/m))
+  % h±m�?h²/m² - km/m²)
+  % h±m�?h²-km)/√m²
+  % h±m�?h²-km)/m
+  % h±�?h²-km)
+  k = abs(H + sqrt(H.^2 - M*K));
+  %k2 = abs(H - sqrt(H.^2 - M*K));
+  %k = [k1;k2];
 
   if nargout > 4
     % Copied from discrete_mean_curvature

@@ -1,4 +1,4 @@
-function [S,V,res,h] = readSDF(filename)
+function [S,V,res,h,origin] = readSDF(filename)
   % READSDF Read a signed distance field from a [.sdf
   % file](https://github.com/christopherbatty/SDFGen/blob/master/main.cpp#L26) 
   %
@@ -23,5 +23,5 @@ function [S,V,res,h] = readSDF(filename)
     h*linspace(0,res(2)-1,res(2)), ...
     h*linspace(0,res(3)-1,res(3)));
   V = bsxfun(@plus,[X(:) Y(:) Z(:)],origin);
-  S = reshape(permute(reshape(S,res),[2 1 3]),[],1);
+  S = reshape(permute(reshape(S,res),[1 2 3]),[],1);
 end
