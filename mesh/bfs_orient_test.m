@@ -1,4 +1,8 @@
-
+close all;
+clc;
+clear;
+dbstop if error;
+%%
 [V,F] = subdivided_sphere(2);
     RF = F;
    I = rand(size(F,1),1)<0.5;

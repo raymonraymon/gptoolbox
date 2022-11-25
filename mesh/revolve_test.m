@@ -3,7 +3,7 @@ clear
 close all
 dbstop if error    
 % surface of revolution from .svg file
-    [P,C,I,F,S,SW,D] = readSVG_cubics('famoustiger.svg');
+    [P,C,I,F,S,SW,D] = readSVG_cubics('../models/famoustiger.svg');
     P(:,2) = max(P(:,2))-P(:,2);
     P(:,1) = P(:,1)-520;
     [PR,CR] = flatten_splines(P,C,I,F,S,SW,D);

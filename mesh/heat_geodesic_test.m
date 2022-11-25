@@ -12,7 +12,7 @@
     
 [V,F]=subdivided_sphere(2);
 %[V,F]=readOBJ('..\models\halfsphereNotclose.obj');
-gamma = [38];
+gamma = [5];
 
 if 1
     c = 10;
@@ -22,6 +22,15 @@ else
     D = geodesics_in_heat(V,F,gamma);
 end
 
+x = 82;
+options.method = 'continuous';
+%[D,S,Q] = perform_fast_marching_mesh(V,F, gamma);
+[path,vlist,plist] = compute_geodesic_mesh(D, V,F, x, options);
+path = path';
+plot3(path(:,1),path(:,2),path(:,3),'--gh','LineWidth',2,...
+                       'MarkerEdgeColor','k',...
+                       'MarkerFaceColor','g',...
+                       'MarkerSize',10);
 
 drawMesh(V,F,'FaceVertexCData',D,'facecolor','interp', 'edgecolor','y');
         view(3);
