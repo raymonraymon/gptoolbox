@@ -115,7 +115,7 @@ for ii = 1:30
     end
 v2 = sum(volume(U,T))
 (v1-v2)/v1
-figure;
+%figure;
 drawMesh(U,F,'FaceColor',[0.8 0.18 0.8]);
 
 %%

@@ -31,14 +31,22 @@ function [R,W] = rodrigues(N,phi)
   end
   % https://math.stackexchange.com/a/142831
   %
+  i = zeros(3*m,1);
+  for ii = 1:m
+      i((ii-1)*6+1:ii*6) = [1 2 0 2 0 1]*ii+repmat(ii,1,6);
+  end
+  j = zeros(3*m,1);
+  for jj = 1:m
+      j((jj-1)*6+1:jj*6) = [1 2 0 2 0 1]*jj+repmat(jj,1,6);
+  end
   W = sparse( ...
-    [1 2 0 2 0 1]*m+(1:m)', ...
-    [0 0 1 1 2 2]*m+(1:m)', ...
+    i, ...
+    j, ...
     [N(:,3) -N(:,2) -N(:,3) N(:,1) N(:,2) -N(:,1)], ...
     3*m,3*m);
   if isempty(phi)
     R = [];
   else
-    R = speye(3*m,3*m) + sin(phi)*W + (2*sin(phi/2)^2)*W*W;
+    R = cos(phi)*speye(3*m,3*m) + sin(phi)*W + (2*sin(phi/2)^2)*W*W;
   end
 end

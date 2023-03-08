@@ -80,7 +80,10 @@ function [U,Usteps] = conformalized_mean_curvature_flow(V,F,varargin)
       Usteps(:,:,iter) = U;
     end
     if until_self_intersection_free
-      [~,~,IF] = selfintersect(U,SF,'DetectOnly',true,'FirstOnly',true);
+      %[~,~,IF] = selfintersect(U,SF,'DetectOnly',true,'FirstOnly',true);
+      
+      [useless, fidx] = min(U(SF(:,1),3));
+      [~, IF] = solve_self_intersection(U,SF, fidx)
       if isempty(IF)
         break;
       end

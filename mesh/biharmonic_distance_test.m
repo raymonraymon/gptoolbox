@@ -8,7 +8,7 @@ dbstop if error
 [V,F] = subdivided_sphere(2);
 nV = size(V,1);
 dim = size(V,2);
-[S] = biharmonic_distance(V,F,1,dim);
+[S] = biharmonic_distance(V,F,2,dim);
 
 iso = linspace(min(S),max(S),10);
   [LS,LD] = isolines(V,F,S,iso);

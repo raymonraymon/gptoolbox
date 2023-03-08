@@ -8,7 +8,7 @@
 L = cotmatrix(V, F);
 %rank(L)
 det(L)
-M = massmatrix(V,F);
+M = massmatrix(V,F,'voronoi');
 
 MV = mean_value_laplacian(V,F);
 
