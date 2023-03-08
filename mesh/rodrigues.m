@@ -37,16 +37,20 @@ function [R,W] = rodrigues(N,phi)
   end
   j = zeros(3*m,1);
   for jj = 1:m
-      j((jj-1)*6+1:jj*6) = [1 2 0 2 0 1]*jj+repmat(jj,1,6);
+      j((jj-1)*6+1:jj*6) = [0 0 1 1 2 2]*jj+repmat(jj,1,6);
   end
   W = sparse( ...
     i, ...
     j, ...
     [N(:,3) -N(:,2) -N(:,3) N(:,1) N(:,2) -N(:,1)], ...
     3*m,3*m);
+   NNT = zeros(3*m,3*m);
+   for n = 0:m-1
+        NNT(3*n+1:3*(n+1),3*n+1:3*(n+1)) = N(n+1,:)'*N(n+1,:);
+   end
   if isempty(phi)
     R = [];
   else
-    R = cos(phi)*speye(3*m,3*m) + sin(phi)*W + (2*sin(phi/2)^2)*W*W;
+    R = cos(phi)*speye(3*m,3*m) + sin(phi)*W + (2*sin(phi/2)^2) * sparse(NNT);
   end
 end
