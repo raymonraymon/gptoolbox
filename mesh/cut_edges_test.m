@@ -4,13 +4,13 @@ close all
 dbstop if error
 %%
 [V,F] = subdivided_sphere(1,'Radius',0.5,'SubdivisionMethod','sqrt3');
-writeOBJ('models/sphere1.obj',V,F);
+writeOBJ('../models/sphere1.obj',V,F);
 
 %%
 %[V,F] = readOBJ('models/sphere1.obj');
 drawMesh(V,F,'facealpha',0.3);
 allE = edges(F);
-line = [13 16 14 15 17];
+line = [12 13 14 15 16]+1;
 E=[line(1:end);line([2:end,1])]';
 plot_edges(V,E,'g');
 [G,I] = cut_edges(F,E);

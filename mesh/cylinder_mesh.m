@@ -1,4 +1,4 @@
-function [CV,CF] = cylinder_mesh(R,N,varargin);
+function [CV,CF] = cylinder_mesh(R,N,ratio,varargin)
   % CYLINDER_MESH  
   %
   %[CV,CQ] = cylinder_mesh(R,N);
@@ -24,6 +24,10 @@ function [CV,CF] = cylinder_mesh(R,N,varargin);
   if nargin<2
     N = 20;
   end
+  
+  if nargin<2
+    ratio = 1;
+  end
 
   quads = false;
   caps = false;
@@ -48,7 +52,7 @@ function [CV,CF] = cylinder_mesh(R,N,varargin);
   CV = [];
   CF = [];
   for stack = 1:stacks
-    [X,Y,Z] = cylinder(R,N);
+    [X,Y,Z] = cylinder_Ellipse(R,N,ratio);
     if quads
       surf2patch_params = {};
     else

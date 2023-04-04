@@ -20,7 +20,8 @@ function [D] = geodesics_in_heat(V, F, src)
     if isempty(hole)
         boundary = [];
     else
-        boundary = hole.boundary.edge(:,1)';
+        edges = hole.boundary.edge;
+        boundary = edges(:,1)';
     end
 
     b = setdiff(boundary, src);

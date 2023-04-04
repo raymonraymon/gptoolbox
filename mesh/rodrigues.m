@@ -45,8 +45,8 @@ function [R,W] = rodrigues(N,phi)
     [N(:,3) -N(:,2) -N(:,3) N(:,1) N(:,2) -N(:,1)], ...
     3*m,3*m);
    NNT = zeros(3*m,3*m);
-   for n = 0:m-1
-        NNT(3*n+1:3*(n+1),3*n+1:3*(n+1)) = N(n+1,:)'*N(n+1,:);
+   for n = 1:m
+        NNT(3*(n-1)+1:3*n,3*(n-1)+1:3*n) = N(n,:)'*N(n,:);
    end
   if isempty(phi)
     R = [];
