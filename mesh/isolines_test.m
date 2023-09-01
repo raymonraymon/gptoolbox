@@ -4,7 +4,7 @@ clc
 dbstop if error
 
 %%
-[V,F] = readOBJ('../models/testNail02_simp30K.obj');
+[V,F] = readOBJ('../models/bunny.obj');
 % nV = size(V,1);
 %     L = cotmatrix(V, F);
 %     M = massmatrix(V, F);
@@ -18,23 +18,25 @@ dbstop if error
 % 	
 
 %[k,H,K,M,T] = discrete_curvatures(V,F);
-K = discrete_gaussian_curvature(V,F);
-S=K;
+S = discrete_gaussian_curvature(V,F);
+%S=V(:,2);
 	
   %%  
-  iso = linspace(min(S),max(S),10);
-  [LS,LD] = isolines(V,F,S,iso);
+  iso = 0;%linspace(min(S),max(S),10);
+  [LS,LD,I] = isolines(V,F,S,iso);
   
   colormap(jet(numel(iso)-1));
   %tsurf(F,V,'CData',S,fphong);
   drawMesh(V, F, ...
-           'FaceVertexCData',S, 'facecolor','interp', 'edgecolor','none');
+           'FaceVertexCData',S, 'facecolor','interp', 'edgecolor','none','facealpha','0.1');
   hold on;
+
+
   plot3([LS(:,1) LD(:,1)]',[LS(:,2) LD(:,2)]',[LS(:,3) LD(:,3)]', ...
     'Color','k','LineWidth',1);
   hold off;
   
-      view(3);
+   view(3);
    axis equal
    axis off
    camlight
@@ -43,8 +45,8 @@ S=K;
    set(gca, 'Position',[0 0 1 1]);
   
   %%
-  [U,G,J,BC,SU,L] = slice_isolines(V,F,S,0.1);
-  drawMesh(V,F);
-  plot3(U(:,1),U(:,2),U(:,3),'*');
+%   [U,G,J,BC,SU,L] = slice_isolines(V,F,S,0.1);
+%   %drawMesh(V,F);
+%   plot3(U(:,1),U(:,2),U(:,3),'*');
   
   

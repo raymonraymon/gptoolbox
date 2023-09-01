@@ -5,7 +5,7 @@ close all
 clc
 dbstop if error
 
-k = 2;
+k = 1;
 switch k 
     case  0
     [V,T] = readTET('..\models\bunny.TET');

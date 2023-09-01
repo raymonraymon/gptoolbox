@@ -15,7 +15,7 @@ E=[line(1:end);line([2:end,1])]';
 plot_edges(V,E,'g');
 [G,I] = cut_edges(F,E);
         
-    W = V(I,:);
+    W = V(I,:); 
 
     
 trisurf(G,W(:,1),W(:,2),W(:,3), ...
