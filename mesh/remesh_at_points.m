@@ -23,12 +23,14 @@ function [FF,II] = remesh_at_points(V,F,P)
   JJ = zeros(size(V,1),1);
   L = (1:size(P,1))';
   PP = P;
+  kdtree = createns(VV,'nsmethod','kdtree');
   while true
     %clf;hold on;tsurf(FF,VV,'CData',II);scatter3(PP(:,1),PP(:,2),PP(:,3));hold off;pause
     % Find closest points/faces on mesh (This is a bit redundant. Really we
     % should only look at faces that _were_ affected last round, since those
     % must have had multiple points.)
-    [~,IC,C] = point_mesh_squared_distance(PP,VV,FF);
+    %[~,IC,C] = point_mesh_squared_distance(PP,VV,FF);
+    [~,C,IC,~] = closestPoint_to_mesh(kdtree,FF,VV,PP);
     % Only keep one closest point per face
     [I,J] = unique(IC);
     % append keepers

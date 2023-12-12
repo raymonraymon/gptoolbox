@@ -10,7 +10,7 @@ P = random_points_on_mesh(V,F,size(F,1));
     tsurf(FF,[V;P],'CData',II)
 
     %%
-            view(3);
+   view(3);
    axis equal
    axis off
    camlight
