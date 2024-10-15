@@ -40,7 +40,7 @@ function [U,Usteps] = conformalized_mean_curvature_flow(V,F,varargin)
   V0 = V;
   rescale_output = false;
   min_diff = 1e-13;
-  conformalize = true;
+  conformalize = false;
   % Map of parameter names to variable names
   params_to_variables = containers.Map( ...
     {'MaxIter','Conformalize','delta','LaplacianType','V0', ...
@@ -95,6 +95,8 @@ function [U,Usteps] = conformalized_mean_curvature_flow(V,F,varargin)
     if ~conformalize
       L = laplacian(V,F);
     end
+    %min(iter,end)
+    %delta(min(iter,end))
     U = (M-delta(min(iter,end))*L)\(M*U);
     area = sum(doublearea(U,SF)*0.5);
     c = sum(bsxfun(@times,0.5*doublearea(U,SF)/area,barycenter(U,SF)));

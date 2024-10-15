@@ -42,7 +42,7 @@ function [VV,FF,birth,UT,E] = half_space_intersect(V,F,p,n,varargin)
     Fabove = [F(I(:,2)) fliplr(E);F(I(:,2:3)) E(:,2)];
   end
 
-  method = 'fast';
+  method = 'exact';
   remesh_cap = false;
   construct_BC = false;
   cap = true;

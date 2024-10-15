@@ -6,10 +6,10 @@ clc
 dbstop if error
 
 %%
-if 0
+if 1
 %dim = 2
-  xRes = 32;
-  yRes = 32;
+  xRes = 5;
+  yRes = 5;
   % here we tell the function that we want a disc topology
   wrap = 0;
   % Output:
@@ -25,11 +25,16 @@ tsurf(F,Vplot, ...
       'FaceLighting','phong', ...
       'EdgeColor',[0.2 0.2 0.2]);
   hold on;
-b=[1,500];
+b=[1,20];
 bc =V(b,:)+[0 0.01 ;
     0.22 0 ];
 %%
-[U,data,SS,R] = arap(V,F,b,bc);
+
+U0 = laplacian_mesh_editing(V,F,b,bc);
+U0plot = [U0(:,1), U0(:,2), zeros(size(U0,1),1)];
+tsurf(F,U0plot,'FaceAlpha',0.25);
+
+[U,data,SS,R] = arap(V,F,b,bc,'Dynamic',1);
 Uplot = [U(:,1), U(:,2), zeros(size(U,1),1)];
 tsurf(F,Uplot,'FaceAlpha',0.25);
 end

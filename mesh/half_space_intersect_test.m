@@ -2,6 +2,7 @@
 close all
 clc
 clear
+dbstop if error
 
 [V,F]=subdivided_sphere(2);
 p=[0.5 0 0];

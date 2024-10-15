@@ -9,11 +9,13 @@ function [V,F,I] = capsule(n,a)
   %   F  #F by 3 list of triangle indices into rows of V
   %   I  #F list I(f) = 1,2 or 3 indicating bottom hemisphere, cylindrical part,
   %     top hemisphere, respectively.
+  %
+  % See also: stadium
   R = 1;
   s = 1;
   s = ceil( (2*n)/(2*pi*R)* a);
   [CV,CF] = cylinder_mesh(R,2*n,'Stacks',s);
-  CV = bsxfun(@times,CV,[1 1 a]);
+  CV = CV.*[1 1 a];
   [X,Y,Z] = sphere(2*n);
   [SF,SV] = surf2patch(X,Y,Z,'triangles');
   [SV,~,J] = remove_duplicate_vertices(SV,1e-7);
@@ -21,7 +23,7 @@ function [V,F,I] = capsule(n,a)
   SF = SF(SF(:,1)~=SF(:,2) & SF(:,2)~=SF(:,3) & SF(:,3)~=SF(:,1),:);
   SBC = barycenter(SV,SF);
   T = SBC(:,3)>0;
-  TV = bsxfun(@plus,SV,[0 0 a]);
+  TV = SV+[0 0 a];
   TF = SF(T,:);
   BV = SV;
   BF = SF(~T,:);

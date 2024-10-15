@@ -5,7 +5,7 @@ close all
 clc
 dbstop if error
 
-k = 1;
+k = 2;
 switch k 
     case  0
     [V,T] = readTET('..\models\bunny.TET');
@@ -36,6 +36,7 @@ switch k
     bc =V(b,:);
     V(1,:) = V(1,:)+[0.0,0.75,0.75];
     V(2,:) = V(2,:)+[0.0,-0.75,0.75];
+    Vorigin = V;
 end
 
 v1 = sum(volume(V,T))
@@ -94,6 +95,9 @@ end
 v2 = sum(volume(U,T))
 (v1-v2)/v1
 figure;
+subplot(1,2,1)
+drawMesh(Vorigin,F,'FaceColor',[0.18 0.8 0.18]);
+subplot(1,2,2)
 drawMesh(U,F,'FaceColor',[0.8 0.18 0.8]);
 
 

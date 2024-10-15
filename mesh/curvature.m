@@ -26,7 +26,7 @@ function [kappa,alpha,ev,l] = curvature(P,varargin)
   end
   % edge vectors, evi goes from Pi to Pi+1
   ev = P(E(:,2),:) - P(E(:,1),:);
-
+  l = normrow(ev);
   % find incoming and outgoing edge of each vertex
   A = sparse(E(:,2),E(:,1),1,n,n);
   A = A-A';

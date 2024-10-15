@@ -64,11 +64,14 @@ function HF = fill_holes(SV,SF,varargin)
     end
     [EVV,EF] = triangle(tV,E,[], 'MaxArea',2.5, 'Quality',10,'MaxSteiners',500);
 
+    %[TV,TF,TN] = triangle(V,E,H,'MaxArea',0.5, 'Quality',30, 'NoBoundarySteiners', 'NoEdgeSteiners');
+    drawMesh(EVV,EF);
+    
     if size(EVV,1) ~= size(EV,1)
       EF = [];
       EE = E;
       while ~isempty(EE)
-        loop = full(outline_loop(EE));
+        loop = full(outline(EE));
         maxA = inf;
         maxEF = [];
         for s = 1:numel(loop)

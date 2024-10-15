@@ -1,4 +1,4 @@
-function [CV,CF] = cylinder_mesh(R,N,ratio,varargin)
+function [CV,CF] = cylinder_mesh(R,N,varargin);
   % CYLINDER_MESH  
   %
   %[CV,CQ] = cylinder_mesh(R,N);
@@ -24,10 +24,6 @@ function [CV,CF] = cylinder_mesh(R,N,ratio,varargin)
   if nargin<2
     N = 20;
   end
-  
-  if nargin<2
-    ratio = 1;
-  end
 
   quads = false;
   caps = false;
@@ -52,7 +48,7 @@ function [CV,CF] = cylinder_mesh(R,N,ratio,varargin)
   CV = [];
   CF = [];
   for stack = 1:stacks
-    [X,Y,Z] = cylinder_Ellipse(R,N,ratio);
+    [X,Y,Z] = cylinder(R,N);
     if quads
       surf2patch_params = {};
     else
@@ -77,6 +73,6 @@ function [CV,CF] = cylinder_mesh(R,N,ratio,varargin)
   end
 
   [CV,~,I] = remove_duplicate_vertices(CV,eps);
-  CV = bsxfun(@rdivide,CV,[1 1 stacks]);
+  CV = bsxfun(@ldivide,CV,[1 1 stacks]);
   CF = I(CF);
 end
