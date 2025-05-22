@@ -145,24 +145,24 @@ for i=1:iter
     FEF = [ FF(:,1) i3 i2 ; FF(:,2) i1 i3 ; FF(:,3) i2 i1 ; i1 i2 i3];
     J = [J;J;J;J];
     % reindex map from duplicate midpoint indices to unique midpoint indices
-    FE2E = [(1:n)';FE2E+n];
+    FE2E1 = [(1:n)';FE2E+n];
     % reindex faces
-    FF = FE2E(FEF);
+    FF = FE2E1(FEF);
 
     S = [Seven;Sodd];
     VV = S*VV;
     SS = S*SS;
-
-%     trisurf(F,V(:,1),V(:,2),V(:,3),'FaceAlpha',0.1,'FaceColor','r','EdgeColor',[0.3 0 0]);
-%     hold on;
-%     trisurf(F,VVeven(:,1),VVeven(:,2),VVeven(:,3),'FaceAlpha',0.1,'FaceColor','b','EdgeColor',[0 0 0.3]);
-%     trisurf(FF,VV(:,1),VV(:,2),VV(:,3),'FaceAlpha',0.1,'FaceColor','g','EdgeColor',[0 0.3 0.0]);
-%     plot3(VVodd(:,1),VVodd(:,2),VVodd(:,3),'y.');
-%     hold off;
-%     view(2);
-% 
-%     tsurf(F,V);
-%     text(V(:,1),V(:,2),V(:,3),num2str(S(694,:)'),'BackgroundColor',[.8 .8 .8]);
+    
+%      trisurf(F,V(:,1),V(:,2),V(:,3),'FaceAlpha',0.1,'FaceColor','r','EdgeColor',[0.3 0 0]);
+%      hold on;
+%      trisurf(F,VVeven(:,1),VVeven(:,2),VVeven(:,3),'FaceAlpha',0.1,'FaceColor','b','EdgeColor',[0 0 0.3]);
+%      trisurf(FF,VV(:,1),VV(:,2),VV(:,3),'FaceAlpha',0.1,'FaceColor','g','EdgeColor',[0 0.3 0.0]);
+%      plot3(VVodd(:,1),VVodd(:,2),VVodd(:,3),'y.');
+%      hold off;
+%      view(2);
+%  
+%      tsurf(F,V);
+%      text(V(:,1),V(:,2),V(:,3),num2str(S(694,:)'),'BackgroundColor',[.8 .8 .8]);
 end
 
 end

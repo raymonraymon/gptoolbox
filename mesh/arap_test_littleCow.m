@@ -107,8 +107,8 @@ for ii = 1:30
                 drawMesh([point1;point2;point3],[1 2 3],'facecolor','k','edgecolor','b');            
             end
     end
-    if kk == 0
-        writeOBJ('../models/arapresult.obj',V,T);
+    if kk > 0
+        writeOBJ('../models/littleCow_arapresult.obj',V,T);
         break;
     end
     V=U;

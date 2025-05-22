@@ -50,10 +50,11 @@ function [U,G,I,J] = remove_small_components(V,F,varargin)
   [~,C] = connected_components(F);
   nc = max(C);
   val = zeros(nc,1);
+  c_val = zeros(nc,3);
   for i = 1:nc
     Fi = F(C==i,:);
     if volumetric
-      [~,val(i)] = centroid(V,Fi);
+      [c_val(i,:),val(i)] = centroid(V,Fi);
     else
       val(i) = 0.5*sum(doublearea(V,Fi));
     end
@@ -63,10 +64,22 @@ function [U,G,I,J] = remove_small_components(V,F,varargin)
     J = find(ismember(C,find(val>tol)));
   else 
     assert(strcmp(tol,'max'));
-    [~,max_c] = max(val);
+    [~,b] = sort(val,'descend');
+    max_c = b(1);
     J = find(C==max_c);
+    if nc >2
+        max_c_next = b(2);
+        J_next = find(C==max_c);
+    end
+    %[~,max_c] = max(val);
+    
+
   end
   F = F(J,:);
   [U,I] = remove_unreferenced(V,F);
   G = I(F);
+
+  F_next = F(J_next,:);
+  [U_next,I_next] = remove_unreferenced(V,F_next);
+  G_next = I_next(F_next);
 end

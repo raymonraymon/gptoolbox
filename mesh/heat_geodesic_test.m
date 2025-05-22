@@ -11,7 +11,7 @@
     a=5;
     
 %[V,F]=subdivided_sphere(1);
-[V,F]=readOBJ('D:\code\mls3d\input\¹ðæÃæÃ_210475_lowertooth3.obj');
+[V,F]=readOBJ('D:\code\mls3d\input\210475_lowertooth3.obj');
 gamma = [2020 2192 1851 2024 1854]+1;
 
 plot3(V(gamma,1),V(gamma,2),V(gamma,3),'--yh','LineWidth',2,...

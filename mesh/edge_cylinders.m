@@ -1,4 +1,4 @@
-function [CV,CF,CJ,CI] = edge_cylinders(PV,PE,varargin);
+function [CV,CF,CJ,CI] = edge_cylinders(PV,PE,varargin)
   % EDGE_CYLINDERS Generate a cylinder mesh at each edge, no accounting for
   % overlaps.
   %
@@ -224,7 +224,7 @@ function [CV,CF,CJ,CI] = edge_cylinders(PV,PE,varargin);
     [CV,I,J] = remove_duplicate_vertices(CV,eps);
     CI = CI(I);
     CF = J(CF);
-    CF = [CF;fill_holes(CV,CF)];
+    %CF = [CF;fill_holes(CV,CF)];
   else
     [CV,CF] = triangle(poly,[1:size(poly,1);2:size(poly,1) 1]',[]);
     [CV,CF] = extrude(CV,CF);

@@ -160,7 +160,7 @@ function [AO,C,l] = apply_ambient_occlusion(t,varargin)
     end
 
     tii = t(ii);
-    [AOii,Cii] = apply_ambient_occlusion_helper(tii,AOii,Cii,factor,unoriented);
+   % [AOii,Cii] = apply_ambient_occlusion_helper(tii,AOii,Cii,factor,unoriented);
     if numel(t) == 1
       AO = AOii;
       C = Cii;

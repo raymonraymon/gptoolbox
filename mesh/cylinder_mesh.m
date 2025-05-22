@@ -72,7 +72,7 @@ function [CV,CF] = cylinder_mesh(R,N,varargin);
     CV = [CV;0 0 0;0 0 stacks];
   end
 
-  [CV,~,I] = remove_duplicate_vertices(CV,eps);
-  CV = bsxfun(@ldivide,CV,[1 1 stacks]);
-  CF = I(CF);
+  %[CV,~,I] = remove_duplicate_vertices(CV,eps);
+  %CV = bsxfun(@ldivide,CV,[1 1 stacks]);
+  %CF = I(CF);
 end

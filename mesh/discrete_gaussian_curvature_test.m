@@ -4,7 +4,7 @@ clear
 dbstop if error
 
 %%
-[V,F] = readOBJ('../models/≈Ì«…π√_103998_uppertooth8.obj');
+[V,F] = readOBJ('../models/cube_open.obj');
 
 
 [K] = discrete_gaussian_curvature(V,F);

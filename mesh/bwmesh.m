@@ -117,6 +117,7 @@ function [W,F,V,E,H,im] = bwmesh(A,varargin)
     % remap faces
     E = J(E);
   
-    [W,F] = triangulate(V,E,'Holes',H,'Flags',triangle_flags);
+    %[W,F] = triangulate(V,E,'Holes',H,'Flags',triangle_flags);
+    [W,F] = triangle(V,E,H,'Quality',quality);
   end
 end

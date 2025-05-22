@@ -5,14 +5,15 @@ close all
 clc
 dbstop if error
 
-k = 2;
-switch k 
+k = 0;
+switch 2 
     case  0
     [V,T] = readTET('..\models\bunny.TET');
     V=V(:,1:3);
     T=T(:,1:4);
     b= 1;
     bc =V(b,:);
+    Vorigin = V;
     case  1
     kk = 7;
     [V,T,~] = regular_tetrahedral_mesh(kk);        
@@ -27,6 +28,7 @@ switch k
     V(1,:) = V(1,:)-[0.25,0,0.25];
     V(kk,:) = V(kk,:)-[0.125,0,0.125];
     %V(2,:) = V(2,:)+[-0.125,0.0,-0.125];
+    Vorigin = V;
     case 2
     [SV,SF]=subdivided_sphere(2);
     %drawMesh(SV,SF,'FaceAlpha',.5);
@@ -42,12 +44,12 @@ end
 v1 = sum(volume(V,T))
 [F,J,K] = boundary_faces(T);
 writeOBJ('../models/arapinput.obj',V,F);
-figure;
-drawMesh(V,F,'FaceAlpha',0.5);
-xlabel('x');
-ylabel('y');
-zlabel('z');
-view(3)
+% figure;
+% drawMesh(V,F,'FaceAlpha',0.5);
+% xlabel('x');
+% ylabel('y');
+% zlabel('z');
+% view(3)
   tic
   Adjinfo = tet_adjacency(T,'type','face');
   toc
@@ -56,7 +58,7 @@ view(3)
   plane   = createPlane([0 0 0], [0 1 0]); 
   sigma = 0.02;
   lastchange = 1000.0;
-for ii = 1:30
+for ii = 1:10
     ii
     [U,data,SS,R,change,flag] = arap_casting(V,T,Adjinfo,demoldDir,plane,sigma,b,bc,lastchange);
     writeOBJ(['../models/arapresult_',num2str(k),'_',num2str(ii),'.obj'],U,F);
@@ -97,8 +99,19 @@ v2 = sum(volume(U,T))
 figure;
 subplot(1,2,1)
 drawMesh(Vorigin,F,'FaceColor',[0.18 0.8 0.18]);
+view(3)
+xlabel('x');
+ylabel('y');
+zlabel('z');
+view(3)
+%zoom out
+%zoom(1.5)
+title('arap casting input');
+axis equal; 
+axis vis3d;
 subplot(1,2,2)
 drawMesh(U,F,'FaceColor',[0.8 0.18 0.8]);
+view(3)
 
 
 writeOBJ('../models/arapresult.obj',RV,IMF);

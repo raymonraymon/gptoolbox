@@ -60,7 +60,7 @@ function [BC,side,r] = voxel_grid(V,side,varargin)
     NV = min(V);
     XV = max(V);
     for d = 2:dim
-      side(d) = ceil(side(1) * (XV(d)-NV(d))/(XV(1)-NV(1)));
+      side(d) = ceil(side(1) * (XV(d)-NV(d))/(XV(1)-NV(1)))+1;
     end
     r = max((XV-NV)./(side-1));
     % recenter

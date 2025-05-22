@@ -11,7 +11,7 @@ dbstop if error
 % [V,T,F] = tetgen(SV1,SF1);
 % writeOBJ('..\models\bunnyTet.obj',V,T);
 
-[V,T] = readOBJ('..\models\arapresult.obj','Quads','true','SimplexSize',4);
+[V,T] = readOBJ('..\models\bunnyTet.obj','Quads','true','SimplexSize',4);
 %%
   demoldDir = [1 1 -1];
   demoldDir = demoldDir./norm(demoldDir);  
@@ -100,7 +100,7 @@ for ii = 1:30
             end
     end
     if kk == 0
-        writeOBJ('../models/arapresult.obj',V,T);
+        writeOBJ('../models/bunny_arapresult.obj',V,T);
         break;
     end
     V=U;

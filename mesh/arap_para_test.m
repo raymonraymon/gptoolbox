@@ -21,7 +21,7 @@ drawMesh(V,F,'FaceAlpha',.5);
 b=[1,xRes];
 bc =[0 0;1 1];
 %%
-[U] = arap(V,F,b,bc,'Energy','elements','Flat',true);
+[U,udata] = arap(V,F,b,bc,'Energy','elements','Flat',true);
 
 drawMesh(U,F);
 view(3)

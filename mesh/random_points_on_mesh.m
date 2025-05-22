@@ -73,6 +73,7 @@ function [N,I,B,r] = random_points_on_mesh(V,F,n,varargin)
       bsxfun(@times,B(:,1),V(F(I,1),:)) +  ...
       bsxfun(@times,B(:,2),V(F(I,2),:)) +  ...
       bsxfun(@times,B(:,3),V(F(I,3),:));
+    r=[];
   case 'blue'
     % This is a "cheap hack" way of getting something like Poisson-Disk
     % sampling which approximates a blue noise sampling.
