@@ -1,15 +1,16 @@
-
-
+%[V,F] = tube_gp(s,r,varargin)
 clc
 clear
 close all
 dbstop if error
-warning off all
-%%
-s=100;r=5;
 
-[V,F] = annulus(s,r);
-drawMesh(V,F)
+%%
+s=36;
+r= 5;
+[V,F] = tube_gp(s,r,'Flags','-q30 -a0.5 -s','R',12,'Levels',14);
+
+drawMesh(V,F);
+
 %%
 view(3);
 axis equal

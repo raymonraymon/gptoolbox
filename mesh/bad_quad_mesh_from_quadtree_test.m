@@ -1,3 +1,8 @@
+clc
+clear
+close all
+dbstop if error
+%%
 th = 2*pi*rand(200,1);
 P = 0.5*[cos(th),sin(th)];
 P = [P;[-1,-1];[1,1]];

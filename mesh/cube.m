@@ -11,7 +11,7 @@ function [V,F,Q] = cube(x,y,z)
   % Outputs:
   %   V  x*y*z by 3 list of vertex positions
   %   F  #F by 3 list of triangle indices
-  %   Q  #Q by 3 list of quad indices
+  %   Q  #Q by 4 list of quad indices
   %
   % 
   if nargin<2

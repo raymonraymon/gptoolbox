@@ -31,7 +31,7 @@ function [AF,DF] = alpha_complex(varargin)
   while ii <= nargin
   switch varargin{ii}
   case 'OnlyShrinkBoundary'
-    if (ii+1)<=nargin && ~ischar(varargin{ii})
+    if (ii+1)<=nargin && ~ischar(varargin{ii+1})
       ii = ii + 1;
       only_shrink_boundary = varargin{ii};
     else

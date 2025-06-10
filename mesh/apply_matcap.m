@@ -28,8 +28,10 @@ function [Imc,A] = apply_matcap(tsh,mc)
   F = tsh.Faces;
   [AZ,EL] = view;
   M = eye(3,4)*viewmtx(AZ,EL)'*eye(4,3);
-  %N = per_vertex_normals(V,F)*M;
-  N = N*M;
+  N = normals(V,F)*M;
+  %N = N*M;
+
+ 
   B1 = B(:,:,1);B2 = B(:,:,2);B3 = B(:,:,3);
   PN = zeros(numel(B1),3);
   if face_based
