@@ -20,7 +20,7 @@
 lastworkspace = 'd:/lastworkspace.mat';
 if is_writable(lastworkspace)
   disp(['Saving workspace data to ' lastworkspace]);
-  save(lastworkspace);
+  %save(lastworkspace);
 else
   warning('Workspace recovery location not writable');
 end
@@ -37,7 +37,7 @@ if usejava('desktop')
       end
   catch
       preserve_history_failed_ = true;
-      disp Exiting Matlab was halted so you can investigate.
-      disp Type "preserve_history" after you fix it before exiting this Matlab session.
+      disp ('Exiting Matlab was halted so you can investigate.');
+      disp ('Type "preserve_history" after you fix it before exiting this Matlab session.');
   end
 end

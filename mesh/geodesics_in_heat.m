@@ -1,6 +1,6 @@
 function [D] = geodesics_in_heat(V, F, src)   
     % choose time step
-    c = 5;
+    c = 2.5;
     t = c * mean(doublearea(V, F))/2;
 
     %% Step 1: Integrate the heat flow for some fixed time t
@@ -43,7 +43,7 @@ function [D] = geodesics_in_heat(V, F, src)
     uN = [A(r,:);Acons]\[B(r,:);Bcons];
     uN(isnan(uN)) = 0;
     % averaged boundary condition
-    u = 0.5*(uN + uD);
+    %u = 0.5*(uN + uD);
     u = uD;
     %% Step 2: Evaluate the vector field X
     G = grad(V, F); % nF*3 by nV matrix(梯度算子 - 所有三角片顶点基函数)

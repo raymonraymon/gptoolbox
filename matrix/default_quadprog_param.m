@@ -8,6 +8,7 @@ function [param,mosek_exists] = default_quadprog_param()
   %   mosek_exists  whether mosek exists
   %
   persistent num_threads
+  %num_threads = 2;
   % Tolerance parameter
   % >1e0 NONSOLUTION
   % 1e-1 artifacts in deformation
@@ -52,7 +53,7 @@ function [param,mosek_exists] = default_quadprog_param()
       %param.MSK_DPAR_INTPNT_QO_TOL_NEAR_REL = 1e-10;
       param.MSK_DPAR_INTPNT_QO_TOL_PFEAS = 1e-14;
       param.MSK_DPAR_INTPNT_QO_TOL_REL_GAP = 1e-14;
-    elseif strfind(which('mosekopt'),'Mosek\9')
+    elseif strfind(which('mosekopt'),'Mosek\10')
       param.MSK_IPAR_NUM_THREADS = num_threads;
     else
       param.MSK_IPAR_INTPNT_NUM_THREADS = num_threads;

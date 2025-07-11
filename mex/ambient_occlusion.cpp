@@ -1,7 +1,7 @@
 
-#include <igl/matlab/MexStream.h>
-#include <igl/embree/ambient_occlusion.h>
-#include <igl/per_vertex_normals.h>
+#include <./external/igl/matlab/MexStream.h>
+#include <./external/igl/embree/ambient_occlusion.h>
+#include <./external/igl/per_vertex_normals.h>
 #include <Eigen/Core>
 #include <mex.h>
 #include <iostream>

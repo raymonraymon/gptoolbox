@@ -17,7 +17,7 @@ function [V,F] = robustcrust(V)
   status = system(command);
   if status ~= 0
     fprintf(command);
-    error(result);
+    %error(result);
   end
   [V,F] = readOBJ(obj_filename);
   delete(cgo_filename);
